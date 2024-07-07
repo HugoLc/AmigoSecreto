@@ -1,0 +1,25 @@
+# Diretórios de build
+[Bb]in/
+[Oo]bj/
+
+# Configurações de IDE
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Pacotes
+packages/
+*.nupkg
+*.snupkg
+.nuget/
+
+# Arquivos de publicação/implantação
+.publish/
+
+# Arquivos de teste
+TestResults/
+.trx
+*.testlog
