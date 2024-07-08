@@ -7,7 +7,7 @@ public class User
     public string Name { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;
-    public User? Friend { get; set; } = null;
+    public Guid? FriendId { get; private set; } = null;
     public List<Gift> Gifts { get; set; } = [];
     public Group? Group { get; set; } = null;
 
@@ -19,8 +19,8 @@ public class User
     {
         Gifts.Remove(gift);
     }
-    public void AddFriend(User friend)
+    public void AddFriend(Guid friend)
     {
-        Friend = friend;
+        FriendId = friend;
     }
 }
