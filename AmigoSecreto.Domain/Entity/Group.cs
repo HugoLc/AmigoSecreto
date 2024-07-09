@@ -9,13 +9,13 @@ public class Group
     public List<User> Users { get; set; } = [];
     public string Local { get; set; } = string.Empty;
     public required User Admin { get; set; }
+    public bool AreFriendsDrawn { get; private set; } = false;
 
     public void DrawFriends()
     {
         List<Guid> drawnFriends = [];
         int usersLength = Users.Count;
         var random = new Random();
-        
         for (int i = 0; i < usersLength; i++)
         {
             bool isSameIndex;
@@ -41,6 +41,7 @@ public class Group
                 }
             } while (isSameIndex);
         }
+        AreFriendsDrawn = true;
     }
     public IEnumerable<UserFriend>? GetUserFriendsToSend()
     {
@@ -58,6 +59,5 @@ public class Group
         Users.Add(user);
         return Users;
     }
-
     private bool IsLastDrawBlocked(int actualIndex, int listLength) => actualIndex + 1 == listLength;
 }

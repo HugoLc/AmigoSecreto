@@ -1,67 +1,41 @@
-using AmigoSecreto.Domain.Entity;
-using AmigoSecreto.Domain.ValueObjects;
 namespace AmigoSecreto.Tests.Domain.Entity;
-public class GroupTests
+public class GroupTests : IClassFixture<GroupFixture>
 {
-    [Fact]
-    public void Test()
+    private readonly GroupFixture _fixture;
+
+    public GroupTests(GroupFixture fixture)
     {
-        var group = GenerateGroup();
-        group.DrawFriends();
-        Assert.True(true);
+        _fixture = fixture;
     }
-
-    private Group GenerateGroup()
+    [Fact]
+    public void DrawFriends_ShouldNotRepeatFriends()
     {
-        var user1 = new User()
-        {
-            Id = new Guid(),
-            Name = "user1",
-            Phone = "11111",
-            Gifts = [
-                new Gift() {
-                    Link = "link1",
-                    Description = "desc1"
-                }
-            ],
-            Password = "111111"
-        };
-        var user2 = new User()
-        {
-            Id = new Guid(),
-            Name = "user2",
-            Phone = "22222",
-            Gifts = [
-                new Gift() {
-                    Link = "link2",
-                    Description = "desc2"
-                }
-            ],
-            Password = "222222"
-        };
-        var user3 = new User()
-        {
-            Id = new Guid(),
-            Name = "user3",
-            Phone = "33333",
-            Gifts = [
-                new Gift() {
-                    Link = "link3",
-                    Description = "desc3"
-                }
-            ],
-            Password = "333333"
-        };
-
-        var group = new Group()
-        {
-            Admin = user1,
-            DrawDate = DateTime.Now,
-            GiftsDate = DateTime.Now,
-            Id = new Guid(),
-            Local = "asd",
-            Users = [user1, user2, user3]
-        };
-        return group;
+        var group = _fixture.Group;
+        group.DrawFriends();
+        var friends = group.Users.Select(u => u.FriendId).ToList();
+        Assert.Equal(friends.Count, friends.Distinct().Count());
+    }
+    [Fact]
+    public void DrawFriends_UserShouldNotBeItsOwnFriend()
+    {
+        var group = _fixture.Group;
+        group.DrawFriends();
+        var userOnwFriend = group.Users.Where(u => u.FriendId == u.Id);
+        Assert.Empty(userOnwFriend);
+    }
+    [Fact]
+    public void DrawFriends_AllUsersShouldHaveAFriend()
+    {
+        var group = _fixture.Group;
+        group.DrawFriends();
+        var nullFriends = group.Users.Where(u => u.FriendId == null);
+        Assert.Empty(nullFriends);
+    }
+    [Fact]
+    public void DrawFriends_AreFriendsDrawnShouldBeTrue()
+    {
+        var group = _fixture.Group;
+        group.DrawFriends();
+        Assert.True(group.AreFriendsDrawn);
     }
 }
