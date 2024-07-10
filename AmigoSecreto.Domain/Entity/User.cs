@@ -4,9 +4,9 @@ namespace AmigoSecreto.Domain.Entity;
 public class User
 {
     public Guid Id { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
-    public string Phone { get; set; } = string.Empty;
+    public required string Name { get; set; } = string.Empty;
+    public required string Password { get; set; } = string.Empty;
+    public required string Phone { get; set; } = string.Empty;
     public Guid? FriendId { get; private set; } = null;
     public List<Gift> Gifts { get; set; } = [];
     public Group? Group { get; set; } = null;

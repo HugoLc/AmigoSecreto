@@ -43,13 +43,16 @@ public class Group
         }
         AreFriendsDrawn = true;
     }
-    public IEnumerable<UserFriend>? GetUserFriendsToSend()
+    public IEnumerable<UserFriend> GetUserFriendsToSend()
     {
+        if (!AreFriendsDrawn)
+        {
+            return [];
+        }
         var userFriends = Users.Select(u => new UserFriend()
         {
             User = u,
-            Friend = Users.FirstOrDefault(f => f.Id == u.Id)
-                ?? throw new NullReferenceException("Usuário não possui amigo sorteado"),
+            Friend = Users.First(f => f.Id == u.Id),
             UserPhone = u.Phone
         });
         return userFriends;

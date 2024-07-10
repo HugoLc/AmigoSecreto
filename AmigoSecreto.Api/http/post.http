@@ -1,0 +1,18 @@
+@host = http://localhost:5127/api
+
+POST  http://localhost:5127/api/v1/create-user
+Content-Type: application/json
+
+{
+    "name": "hugo",
+    "password": "hhh",
+    "phone": "11222333",
+    "gifts": [
+        {
+            "description": "chinelo",
+            "link": "/chinelo"
+        }
+    ],
+    "groupId": "aqqaa1122"
+}
+###

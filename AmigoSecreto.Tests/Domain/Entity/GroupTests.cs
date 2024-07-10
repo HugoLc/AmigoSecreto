@@ -38,4 +38,20 @@ public class GroupTests : IClassFixture<GroupFixture>
         group.DrawFriends();
         Assert.True(group.AreFriendsDrawn);
     }
+    [Fact]
+    public void GetUserFriendsToSend_ShouldReturnNullIfFriendsArentDrawn()
+    {
+        var group = _fixture.Group;
+        var friends = group.GetUserFriendsToSend();
+        Assert.Empty(friends);
+    }
+    [Fact]
+    public void GetUserFriendsToSend_ShouldReturnTheSameQuantityOfElementsAsUsers()
+    {
+        var group = _fixture.Group;
+        var friends = group.GetUserFriendsToSend();
+        var users = group.Users;
+
+        Assert.Equal(friends.Count(), users.Count);
+    }
 }
