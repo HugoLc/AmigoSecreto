@@ -3,7 +3,7 @@ using AmigoSecreto.Domain.ValueObjects;
 namespace AmigoSecreto.Domain.Entity;
 public class User
 {
-    public Guid Id { get; set; }
+    public required Guid Id { get; set; }
     public required string Name { get; set; } = string.Empty;
     public required string Password { get; set; } = string.Empty;
     public required string Phone { get; set; } = string.Empty;
