@@ -21,6 +21,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Creat
             Name = request.Name,
             Password = request.Password,
             Phone = request.Phone,
+            Gifts = request.Gifts,
             //TODO: ver questão do Group    
         };
         _userRepository.AddUser(user);
