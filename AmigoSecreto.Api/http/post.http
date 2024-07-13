@@ -1,6 +1,6 @@
 @host = http://localhost:5127/api
 
-POST  http://localhost:5127/api/v1/create-user
+POST  {{host}}/v1/create-user
 Content-Type: application/json
 
 {

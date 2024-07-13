@@ -1,5 +1,6 @@
 
 using AmigoSecreto.Application.AmigoSecreto.Commands;
+using AmigoSecreto.Application.AmigoSecreto.Queries;
 using AmigoSecreto.Contracts.User;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +29,14 @@ public class AmigoSecretoController : ControllerBase
             GroupId: request.GroupId
         );
         var result = _mediator.Send(requestCommand);
-        // return CreatedAtAction("", result);
+        return Ok(result.Result);
+    }
+
+    [HttpGet("v1/get-user/{id}")]
+    public IActionResult GetUserById([FromRoute] string id)
+    {
+        var requestQuery = new ReadUserByIdQuery(Guid.Parse(id));
+        var result = _mediator.Send(requestQuery);
         return Ok(result.Result);
     }
 }

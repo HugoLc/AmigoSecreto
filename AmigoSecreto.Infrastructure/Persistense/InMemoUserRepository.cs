@@ -9,4 +9,9 @@ public class InMemoUserRepository : IUserRepository
     {
         _users.Add(user);
     }
+
+    public User? GetUser(Guid userId)
+    {
+        return _users.FirstOrDefault(x => x.Id == userId);
+    }
 }
