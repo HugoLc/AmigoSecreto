@@ -1,5 +1,6 @@
 namespace AmigoSecreto.Application.AmigoSecreto.Common;
-public class CreateUserResult
-{
-
-}
+public record CreateUserResult
+(
+    Guid Id,
+    string Name
+);

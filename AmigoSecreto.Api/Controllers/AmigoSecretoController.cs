@@ -1,4 +1,7 @@
+
+using AmigoSecreto.Application.AmigoSecreto.Commands;
 using AmigoSecreto.Contracts.User;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AmigoSecreto.Api.Controllers;
@@ -7,14 +10,25 @@ namespace AmigoSecreto.Api.Controllers;
 [Route("/api/")]
 public class AmigoSecretoController : ControllerBase
 {
-    public AmigoSecretoController()
+    private readonly ISender _mediator;
+    public AmigoSecretoController(ISender mediator)
     {
+        _mediator = mediator;
     }
 
     [HttpPost("v1/create-user")]
     public IActionResult CreateUser([FromBody] UserRequest request)
     {
-        //chamar mediator para registrar o command
-        return Ok(request);
+        //TODO: usar mapster
+        var requestCommand = new CreateUserCommand(
+            Name: request.Name,
+            Password: request.Password,
+            Phone: request.Phone,
+            Gifts: request.Gifts,
+            GroupId: request.GroupId
+        );
+        var result = _mediator.Send(requestCommand);
+        // return CreatedAtAction("", result);
+        return Ok(result.Result);
     }
 }

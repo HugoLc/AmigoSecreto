@@ -1,5 +1,6 @@
 using AmigoSecreto.Application.AmigoSecreto.Common;
 using AmigoSecreto.Application.Common.Interfaces.Persistense;
+using AmigoSecreto.Domain.Entity;
 using MediatR;
 
 namespace AmigoSecreto.Application.AmigoSecreto.Commands;
@@ -12,13 +13,17 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Creat
         _userRepository = userRepository;
     }
 
-    public Task<CreateUserResult> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<CreateUserResult> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        //mapear o user
-
-        //enviar para o repo
-        _userRepository.AddUser();
-
-        //criar result e retorna-lo
+        var user = new User()
+        {
+            Id = Guid.NewGuid(),
+            Name = request.Name,
+            Password = request.Password,
+            Phone = request.Phone,
+            //TODO: ver questão do Group    
+        };
+        _userRepository.AddUser(user);
+        return new CreateUserResult(Id: user.Id, Name: user.Name);
     }
 }
