@@ -4,8 +4,8 @@ POST  {{host}}/v1/create-user
 Content-Type: application/json
 
 {
-    "name": "hugo",
-    "password": "hhh",
+    "name": "hugo2",
+    "password": "hhh2",
     "phone": "11222333",
     "gifts": [
         {

@@ -14,4 +14,9 @@ public class InMemoUserRepository : IUserRepository
     {
         return _users.FirstOrDefault(x => x.Id == userId);
     }
+
+    public List<User> GetUsers()
+    {
+        return _users;
+    }
 }

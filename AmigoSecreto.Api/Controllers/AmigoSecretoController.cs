@@ -35,7 +35,23 @@ public class AmigoSecretoController : ControllerBase
     [HttpGet("v1/get-user/{id}")]
     public IActionResult GetUserById([FromRoute] string id)
     {
+        if (string.IsNullOrEmpty(id))
+        {
+            return BadRequest();
+        }
         var requestQuery = new ReadUserByIdQuery(Guid.Parse(id));
+        var result = _mediator.Send(requestQuery);
+        if (result.Result is null)
+        {
+            return NoContent();
+        }
+        return Ok(result.Result);
+    }
+
+    [HttpGet("v1/get-users")]
+    public IActionResult GetUsers()
+    {
+        var requestQuery = new ReadUsersQuery();
         var result = _mediator.Send(requestQuery);
         return Ok(result.Result);
     }
