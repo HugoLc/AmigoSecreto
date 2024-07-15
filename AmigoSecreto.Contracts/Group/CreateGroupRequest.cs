@@ -1,8 +1,8 @@
 namespace AmigoSecreto.Contracts.Group;
 public record CreateGroupRequest
 (
-    DateTime DrawDate,
-    DateTime GiftsDate,
+    string DrawDate,
+    string GiftsDate,
     string Local,
     string AdminId
 );

@@ -1,3 +1,4 @@
+using System.Globalization;
 using AmigoSecreto.Application.AmigoSecreto.Common;
 using AmigoSecreto.Application.Common.Interfaces.Persistense;
 using AmigoSecreto.Domain.Entity;
@@ -17,12 +18,23 @@ public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, Cre
 
     public Task<CreateGroupResult> Handle(CreateGroupCommand request, CancellationToken cancellationToken)
     {
+        DateTime convertedDrawDate = DateTime.Parse(request.DrawDate);
+        DateTime convertedGiftsDate = DateTime.Parse(request.GiftsDate);
+        Console.WriteLine(convertedGiftsDate);
+        Console.WriteLine(convertedDrawDate);
+
+
+        if (convertedGiftsDate < convertedDrawDate)
+        {
+            //TODO: tratar erros
+            throw new ArgumentException("Data do sorteio precisa ser anterior a data de troca de presentes");
+        }
         var group = new Group()
         {
             Id = Guid.NewGuid(),
             AdminId = request.AdminId,
-            DrawDate = request.DrawDate,
-            GiftsDate = request.GiftsDate,
+            DrawDate = convertedDrawDate,
+            GiftsDate = convertedGiftsDate,
             Local = request.Local,
         };
         var adminUser = _userRepository.GetUser(Guid.Parse(request.AdminId));

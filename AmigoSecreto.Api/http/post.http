@@ -12,7 +12,15 @@ Content-Type: application/json
             "description": "chinelo",
             "link": "/chinelo"
         }
-    ],
-    "groupId": "aqqaa1122"
+    ]
 }
 ###
+POST  {{host}}/v1/create-group
+Content-Type: application/json
+
+{
+    "drawDate": "2024-07-15T23:11",
+    "giftsDate": "2024-07-17T23:11",
+    "local": "casa da maria",
+    "adminId": "867f590b-e10b-4244-93e2-ed011439226d"
+}
