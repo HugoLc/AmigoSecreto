@@ -93,7 +93,7 @@ Group GenerateGroup()
 
     var group = new Group()
     {
-        Admin = user1,
+        AdminId = user1.Id.ToString(),
         DrawDate = DateTime.Now,
         GiftsDate = DateTime.Now,
         Id = Guid.NewGuid(),

@@ -15,7 +15,7 @@ public class GroupFixture
         var users = GenerateUsers(6);
         var group = new Group()
         {
-            Admin = users[0],
+            AdminId = users[0].Id.ToString(),
             DrawDate = DateTime.Now,
             GiftsDate = DateTime.Now,
             Id = Guid.NewGuid(),

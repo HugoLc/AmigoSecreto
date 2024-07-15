@@ -1,6 +1,7 @@
 
 using AmigoSecreto.Application.AmigoSecreto.Commands;
 using AmigoSecreto.Application.AmigoSecreto.Queries;
+using AmigoSecreto.Contracts.Group;
 using AmigoSecreto.Contracts.User;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -53,6 +54,19 @@ public class AmigoSecretoController : ControllerBase
     {
         var requestQuery = new ReadUsersQuery();
         var result = _mediator.Send(requestQuery);
+        return Ok(result.Result);
+    }
+    [HttpPost("v1/create-group")]
+    public IActionResult CreateGroup([FromBody] CreateGroupRequest request)
+    {
+        //TODO: usar mapster
+        var requestCommand = new CreateGroupCommand(
+            request.DrawDate,
+            request.GiftsDate,
+            request.Local,
+            request.AdminId
+        );
+        var result = _mediator.Send(requestCommand);
         return Ok(result.Result);
     }
 }
