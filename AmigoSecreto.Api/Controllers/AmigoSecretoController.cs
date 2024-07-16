@@ -1,6 +1,7 @@
 
 using AmigoSecreto.Application.AmigoSecreto.Commands;
 using AmigoSecreto.Application.AmigoSecreto.Queries;
+using AmigoSecreto.Application.AmigoSecreto.Queries.Group;
 using AmigoSecreto.Contracts.Group;
 using AmigoSecreto.Contracts.User;
 using MediatR;
@@ -67,6 +68,22 @@ public class AmigoSecretoController : ControllerBase
             request.AdminId
         );
         var result = _mediator.Send(requestCommand);
+        return Ok(result.Result);
+    }
+
+    [HttpGet("v1/get-group/{id}")]
+    public IActionResult GetGroupById([FromRoute] string id)
+    {
+        if (string.IsNullOrEmpty(id))
+        {
+            return BadRequest();
+        }
+        var requestQuery = new ReadGroupByIdQuery(Guid.Parse(id));
+        var result = _mediator.Send(requestQuery);
+        if (result.Result is null)
+        {
+            return NoContent();
+        }
         return Ok(result.Result);
     }
 }

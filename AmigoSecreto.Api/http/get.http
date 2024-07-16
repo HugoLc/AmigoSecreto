@@ -6,3 +6,7 @@ Content-Type: application/json
 ###
 GET {{host}}/v1/get-users
 Content-Type: application/json
+
+###
+GET {{host}}/v1/get-group/1c975d1b-e62e-4a78-b4c0-286aa524ab6a
+Content-Type: application/json

@@ -20,10 +20,6 @@ public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, Cre
     {
         DateTime convertedDrawDate = DateTime.Parse(request.DrawDate);
         DateTime convertedGiftsDate = DateTime.Parse(request.GiftsDate);
-        Console.WriteLine(convertedGiftsDate);
-        Console.WriteLine(convertedDrawDate);
-
-
         if (convertedGiftsDate < convertedDrawDate)
         {
             //TODO: tratar erros

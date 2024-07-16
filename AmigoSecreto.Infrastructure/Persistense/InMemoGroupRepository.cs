@@ -9,4 +9,9 @@ public class InMemoGroupRepository : IGroupRepository
     {
         _groups.Add(group);
     }
+
+    public Group? GetGroup(Guid id)
+    {
+        return _groups.FirstOrDefault(g => g.Id == id);
+    }
 }

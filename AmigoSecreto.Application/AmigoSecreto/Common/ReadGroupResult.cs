@@ -1,9 +1,9 @@
-
 namespace AmigoSecreto.Application.AmigoSecreto.Common;
-public record CreateGroupResult(
+public record ReadGroupResult(
     Guid Id,
     DateTime DrawDate,
     DateTime GiftsDate,
     string Local,
-    string AdminId
+    string AdminId,
+    bool AreFriendsDrawn
 );
