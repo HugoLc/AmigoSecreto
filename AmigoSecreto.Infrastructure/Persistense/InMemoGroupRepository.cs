@@ -14,4 +14,9 @@ public class InMemoGroupRepository : IGroupRepository
     {
         return _groups.FirstOrDefault(g => g.Id == id);
     }
+
+    public List<Group> GetGroups()
+    {
+        return _groups;
+    }
 }

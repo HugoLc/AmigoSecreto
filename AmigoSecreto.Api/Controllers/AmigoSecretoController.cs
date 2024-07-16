@@ -55,6 +55,10 @@ public class AmigoSecretoController : ControllerBase
     {
         var requestQuery = new ReadUsersQuery();
         var result = _mediator.Send(requestQuery);
+        if (result.Result == null || result.Result.Count == 0)
+        {
+            return NoContent();
+        }
         return Ok(result.Result);
     }
     [HttpPost("v1/create-group")]
@@ -81,6 +85,19 @@ public class AmigoSecretoController : ControllerBase
         var requestQuery = new ReadGroupByIdQuery(Guid.Parse(id));
         var result = _mediator.Send(requestQuery);
         if (result.Result is null)
+        {
+            return NoContent();
+        }
+        return Ok(result.Result);
+    }
+    [HttpGet("v1/get-groups")]
+    public IActionResult GetGroups()
+    {
+
+        var requestQuery = new ReadGroupsQuery();
+        var result = _mediator.Send(requestQuery);
+
+        if (result.Result == null || result.Result.Count == 0)
         {
             return NoContent();
         }

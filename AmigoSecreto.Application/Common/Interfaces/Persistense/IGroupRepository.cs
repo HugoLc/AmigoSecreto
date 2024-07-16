@@ -6,4 +6,5 @@ public interface IGroupRepository
 {
     void AddGroup(Group group);
     Group? GetGroup(Guid id);
+    List<Group> GetGroups();
 }
