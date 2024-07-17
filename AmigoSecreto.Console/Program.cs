@@ -7,7 +7,7 @@ Console.WriteLine("Hello, World!");
 
 var group = GenerateGroup();
 group.DrawFriends();
-var json = JsonConvert.SerializeObject(group.Users, Formatting.Indented);
+var json = JsonConvert.SerializeObject(group.Players, Formatting.Indented);
 Console.WriteLine(json);
 
 Group GenerateGroup()
@@ -98,7 +98,7 @@ Group GenerateGroup()
         GiftsDate = DateTime.Now,
         Id = Guid.NewGuid(),
         Local = "asd",
-        Users = [user1, user2, user3, user4, user5, user6]
+        Players = [user1, user2, user3, user4, user5, user6]
     };
     return group;
 }

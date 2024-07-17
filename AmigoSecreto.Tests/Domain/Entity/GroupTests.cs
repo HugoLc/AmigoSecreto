@@ -12,7 +12,7 @@ public class GroupTests : IClassFixture<GroupFixture>
     {
         var group = _fixture.Group;
         group.DrawFriends();
-        var friends = group.Users.Select(u => u.FriendId).ToList();
+        var friends = group.Players.Select(u => u.FriendId).ToList();
         Assert.Equal(friends.Count, friends.Distinct().Count());
     }
     [Fact]
@@ -20,15 +20,15 @@ public class GroupTests : IClassFixture<GroupFixture>
     {
         var group = _fixture.Group;
         group.DrawFriends();
-        var userOnwFriend = group.Users.Where(u => u.FriendId == u.Id);
-        Assert.Empty(userOnwFriend);
+        var playerOnwFriend = group.Players.Where(u => u.FriendId == u.Id);
+        Assert.Empty(playerOnwFriend);
     }
     [Fact]
     public void DrawFriends_AllUsersShouldHaveAFriend()
     {
         var group = _fixture.Group;
         group.DrawFriends();
-        var nullFriends = group.Users.Where(u => u.FriendId == null);
+        var nullFriends = group.Players.Where(u => u.FriendId == null);
         Assert.Empty(nullFriends);
     }
     [Fact]
@@ -50,8 +50,8 @@ public class GroupTests : IClassFixture<GroupFixture>
     {
         var group = _fixture.Group;
         var friends = group.GetUserFriendsToSend();
-        var users = group.Users;
+        var players = group.Players;
 
-        Assert.Equal(friends.Count(), users.Count);
+        Assert.Equal(friends.Count(), players.Count);
     }
 }

@@ -12,22 +12,22 @@ public class GroupFixture
 
     private Group GenerateGroup()
     {
-        var users = GenerateUsers(6);
+        var players = GeneratePlayers(6);
         var group = new Group()
         {
-            AdminId = users[0].Id.ToString(),
+            AdminId = players[0].Id.ToString(),
             DrawDate = DateTime.Now,
             GiftsDate = DateTime.Now,
             Id = Guid.NewGuid(),
             Local = "Local",
-            Users = users
+            Players = players
         };
         return group;
     }
 
-    private List<User> GenerateUsers(int count)
+    private List<Player> GeneratePlayers(int count)
     {
-        var users = new List<User>();
+        var users = new List<Player>();
         for (int i = 1; i <= count; i++)
         {
             var user = new User()

@@ -39,7 +39,7 @@ public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, Cre
             //TODO: melhorar tratativa de erros
             throw new ArgumentNullException(nameof(adminUser));
         }
-        group.AddUser(adminUser);
+        group.AddPlayer(adminUser);
         _groupRepository.AddGroup(group);
         var result = new CreateGroupResult(
             group.Id,

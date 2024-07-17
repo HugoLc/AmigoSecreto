@@ -6,7 +6,7 @@ public class Group
     public Guid Id { get; set; }
     public DateTime DrawDate { get; set; }
     public DateTime GiftsDate { get; set; }
-    public List<User> Users { get; set; } = [];
+    public List<Player> Players { get; set; } = [];
     public string Local { get; set; } = string.Empty;
     public required string AdminId { get; set; }
     public bool AreFriendsDrawn { get; private set; } = false;
@@ -14,17 +14,17 @@ public class Group
     public void DrawFriends()
     {
         List<Guid> drawnFriends = [];
-        int usersLength = Users.Count;
+        int playersLength = Players.Count;
         var random = new Random();
-        for (int i = 0; i < usersLength; i++)
+        for (int i = 0; i < playersLength; i++)
         {
             bool isSameIndex;
             do
             {
-                var randomIndex = random.Next(usersLength);
-                var friend = Users[randomIndex];
+                var randomIndex = random.Next(playersLength);
+                var friend = Players[randomIndex];
                 isSameIndex = i == randomIndex;
-                if (isSameIndex && IsLastDrawBlocked(i, usersLength) && !drawnFriends.Contains(friend.Id))
+                if (isSameIndex && IsLastDrawBlocked(i, playersLength) && !drawnFriends.Contains(friend.Id))
                 {
                     i = -1;
                     isSameIndex = false;
@@ -33,7 +33,7 @@ public class Group
                 else if (!isSameIndex && !drawnFriends.Contains(friend.Id))
                 {
                     drawnFriends.Add(friend.Id);
-                    Users[i].AddFriend(friend.Id);
+                    Players[i].AddFriend(friend.Id);
                 }
                 else
                 {
@@ -49,18 +49,18 @@ public class Group
         {
             return [];
         }
-        var userFriends = Users.Select(u => new UserFriend()
+        var userFriends = Players.Select(p => new UserFriend()
         {
-            User = u,
-            Friend = Users.First(f => f.Id == u.Id),
-            UserPhone = u.Phone
+            User = p,
+            Friend = Players.First(f => f.Id == p.Id),
+            UserPhone = p.Phone
         });
         return userFriends;
     }
-    public List<User> AddUser(User user)
+    public List<Player> AddPlayer(Player player)
     {
-        Users.Add(user);
-        return Users;
+        Players.Add(player);
+        return Players;
     }
     private bool IsLastDrawBlocked(int actualIndex, int listLength) => actualIndex + 1 == listLength;
 }
