@@ -103,4 +103,10 @@ public class AmigoSecretoController : ControllerBase
         }
         return Ok(result.Result);
     }
+    [HttpPost("v1/group/add-players")]
+    public IActionResult AddPlayers([FromBody] AddPlayersRequest request)
+    {
+        
+        return Ok();
+    }
 }
