@@ -21,7 +21,7 @@ public class ReadUserByIdQueryHandler : IRequestHandler<ReadUserByIdQuery, ReadU
             user.Id,
             user.Name,
             user.Phone,
-            user.Group?.Id,
+            user.GroupId,
             user.Gifts
         );
         return readUserResult;

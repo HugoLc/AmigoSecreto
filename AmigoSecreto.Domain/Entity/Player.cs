@@ -8,7 +8,7 @@ public class Player
     public required string Phone { get; set; } = string.Empty;
     public Guid? FriendId { get; private set; } = null;
     public List<Gift> Gifts { get; set; } = [];
-    public Group? Group { get; set; } = null;
+    public Guid? GroupId { get; set; } = null;
 
     public void AddGift(Gift gift)
     {

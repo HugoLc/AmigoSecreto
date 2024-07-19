@@ -106,7 +106,10 @@ public class AmigoSecretoController : ControllerBase
     [HttpPost("v1/group/add-players")]
     public IActionResult AddPlayers([FromBody] AddPlayersRequest request)
     {
-        
-        return Ok();
+        var requestCommand = new AddPlayerToGroupCommand(
+            Guid.Parse(request.GroupId),
+            request.Players);
+        var result = _mediator.Send(requestCommand);
+        return Ok(result.Result);
     }
 }

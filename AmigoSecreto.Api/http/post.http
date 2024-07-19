@@ -22,5 +22,34 @@ Content-Type: application/json
     "drawDate": "2024-07-15T23:11",
     "giftsDate": "2024-07-17T23:11",
     "local": "casa da maria",
-    "adminId": "abe420e2-5e7a-4357-8eee-8acf8d4e8cc9"
+    "adminId": "e389f1b2-29a0-4ad1-af67-1fdb74f34a0b"
+}
+###
+POST  {{host}}/v1/group/add-players
+Content-Type: application/json
+
+{
+    "groupId":"ee9f8423-a5a9-4e8f-977a-b3c62320ec09",
+    "players": [
+        {
+            "name": "player 1",
+            "phone": "player 1",
+            "gifts": [
+                {
+                    "description": "chinelo",
+                    "link": "/chinelo"
+                }
+            ]
+        },
+        {
+            "name": "player 2",
+            "phone": "player 2",
+            "gifts": [
+                {
+                    "description": "chinelo",
+                    "link": "/chinelo"
+                }
+            ]
+        }
+    ]
 }

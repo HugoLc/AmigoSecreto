@@ -7,6 +7,5 @@ public interface IGroupRepository
     void AddGroup(Group group);
     Group? GetGroup(Guid id);
     List<Group> GetGroups();
-
-    List<Player> AddPlayer(Guid groupId, Player player);
+    List<Player> AddPlayers(Guid groupId, List<Player> players);
 }

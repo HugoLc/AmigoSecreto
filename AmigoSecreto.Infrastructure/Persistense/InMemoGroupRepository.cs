@@ -10,10 +10,13 @@ public class InMemoGroupRepository : IGroupRepository
         _groups.Add(group);
     }
 
-    public List<Player> AddPlayer(Guid groupId, Player player)
+    public List<Player> AddPlayers(Guid groupId, List<Player> players)
     {
         var group = _groups.FirstOrDefault(g => g.Id == groupId) ?? throw new ArgumentException("grupo não encontrado");
-        group.AddPlayer(player);
+        foreach (var player in players)
+        {
+            group.AddPlayer(player);
+        }
         return group.Players;
     }
 

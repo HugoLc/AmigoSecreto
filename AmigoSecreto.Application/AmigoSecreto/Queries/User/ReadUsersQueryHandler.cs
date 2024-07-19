@@ -18,7 +18,7 @@ public class ReadUsersQueryHandler : IRequestHandler<ReadUsersQuery, List<ReadUs
             Id: u.Id,
             Name: u.Name,
             Phone: u.Phone,
-            GroupId: u.Group?.Id,
+            GroupId: u.GroupId,
             Gifts: u.Gifts
         )).ToList();
         return Task.FromResult(usersResult);
