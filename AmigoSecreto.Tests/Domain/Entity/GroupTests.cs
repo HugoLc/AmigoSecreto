@@ -8,6 +8,16 @@ public class GroupTests : IClassFixture<GroupFixture>
         _fixture = fixture;
     }
     [Fact]
+    public void DrawFriends_ShouldNotDrawWhenTheDateIsNotDrawDate()
+    {
+        var group = _fixture.Group;
+        var correctDrawDate = group.DrawDate;
+        var futureDate = DateTime.Now.AddMonths(2);
+        group.DrawDate = futureDate;
+        Assert.Throws<InvalidOperationException>(() => group.DrawFriends());
+        group.DrawDate = correctDrawDate;
+    }
+    [Fact]
     public void DrawFriends_ShouldNotRepeatFriends()
     {
         var group = _fixture.Group;

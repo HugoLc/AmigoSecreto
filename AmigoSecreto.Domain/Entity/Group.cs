@@ -13,6 +13,10 @@ public class Group
 
     public void DrawFriends()
     {
+        if (!IsTodayDrawDate())
+        {
+            throw new InvalidOperationException("Today is not draw date");
+        }
         List<Guid> drawnFriends = [];
         int playersLength = Players.Count;
         var random = new Random();
@@ -63,4 +67,10 @@ public class Group
         return Players;
     }
     private bool IsLastDrawBlocked(int actualIndex, int listLength) => actualIndex + 1 == listLength;
+    private bool IsTodayDrawDate()
+    {
+        var today = DateTime.Now.Date;
+        var drawDay = DrawDate.Date;
+        return today >= drawDay;
+    }
 }
