@@ -35,6 +35,7 @@ public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, Cre
             Local = request.Local,
         };
         var adminUser = _userRepository.GetUser(Guid.Parse(request.AdminId));
+        _userRepository.AddGroup(Guid.Parse(request.AdminId), group.Id);
         if (adminUser == null)
         {
             //TODO: melhorar tratativa de erros

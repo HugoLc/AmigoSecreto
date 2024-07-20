@@ -22,7 +22,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Creat
             Password = request.Password,
             Phone = request.Phone,
             Gifts = request.Gifts,
-            //TODO: ver questão do Group    
+            //TODO: ver questão do Group - no momento de criar grupo, buscar o user pelo adminid e adicionar id do grupo no user
         };
         _userRepository.AddUser(user);
         return new CreateUserResult(Id: user.Id, Name: user.Name);

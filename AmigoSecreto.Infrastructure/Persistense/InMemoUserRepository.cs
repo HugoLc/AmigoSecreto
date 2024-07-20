@@ -5,6 +5,14 @@ namespace AmigoSecreto.Infrastructure.Persistense;
 public class InMemoUserRepository : IUserRepository
 {
     private static readonly List<User> _users = [];
+
+    public void AddGroup(Guid userId, Guid groupId)
+    {
+        //TODO: melhorar tratamento de erro
+        var user = _users.Find(u=>u.Id == userId) ?? throw new ArgumentException("User not found");
+        user.GroupId = groupId;
+    }
+
     public void AddUser(User user)
     {
         _users.Add(user);
