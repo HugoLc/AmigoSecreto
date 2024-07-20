@@ -20,11 +20,10 @@ public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, Cre
     {
         DateTime convertedDrawDate = DateTime.Parse(request.DrawDate);
         DateTime convertedGiftsDate = DateTime.Parse(request.GiftsDate);
-        //TODO: verificar tambem se é maior que a data atual
-        if (convertedGiftsDate < convertedDrawDate)
+        if (!AreValidDates(convertedDrawDate, convertedGiftsDate))
         {
             //TODO: tratar erros
-            throw new ArgumentException("Data do sorteio precisa ser anterior a data de troca de presentes");
+            throw new ArgumentException("As datas precisam ser futuras e a data do sorteio precisa ser anterior a data de troca de presentes");
         }
         var group = new Group()
         {
@@ -51,5 +50,11 @@ public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, Cre
             group.AdminId
         );
         return Task.FromResult(result);
+    }
+
+    private static bool AreValidDates(DateTime convertedDrawDate, DateTime convertedGiftsDate)
+    {
+        DateTime today = DateTime.Today;
+        return convertedGiftsDate < convertedDrawDate || today >= convertedDrawDate.Date || today >= convertedGiftsDate;
     }
 }
