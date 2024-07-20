@@ -15,6 +15,7 @@ public class DrawFriendsCommandHandler : IRequestHandler<DrawFriendsCommand, Dra
     {
         var drawnGroup = _groupRepository.DrawDriends(Guid.Parse(request.GroupId));
         var result = new DrawFriendsResult(drawnGroup.Id, drawnGroup.AreFriendsDrawn);
+        //TODO: enviar mensagens para amigos
         return Task.FromResult(result);
     }
 }

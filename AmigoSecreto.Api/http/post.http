@@ -22,14 +22,14 @@ Content-Type: application/json
     "drawDate": "2024-07-15T23:11",
     "giftsDate": "2024-07-17T23:11",
     "local": "casa da maria",
-    "adminId": "3db698a0-c756-4bbc-8547-869211557c87"
+    "adminId": "f4df3774-06a2-4b90-9ab5-3ba8d11c62d5"
 }
 ###
 POST  {{host}}/v1/group/add-players
 Content-Type: application/json
 
 {
-    "groupId":"1b67990c-6e11-44fe-bdb3-cbfcebaa1b46",
+    "groupId":"73674365-5f6e-4f93-804c-e877e60e215d",
     "players": [
         {
             "name": "player 1",
@@ -52,4 +52,11 @@ Content-Type: application/json
             ]
         }
     ]
+}
+###
+POST  {{host}}/v1/group/draw-friends
+Content-Type: application/json
+
+{
+    "groupId": "73674365-5f6e-4f93-804c-e877e60e215d"
 }

@@ -113,11 +113,13 @@ public class AmigoSecretoController : ControllerBase
         return Ok(result.Result);
     }
     [HttpPost("v1/group/draw-friends")]
-    public IActionResult DrawFriends()
+    public IActionResult DrawFriends([FromBody] DrawFriendsRequest request)
     {
         // pegar id do grupo pelo request
+        var requestCommand = new DrawFriendsCommand(request.GroupId);
+        var result = _mediator.Send(requestCommand);
         //criar comando
         //mandar no mediator
-        return Ok();
+        return Ok(result.Result);
     }
 }
