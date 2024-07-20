@@ -8,4 +8,5 @@ public interface IGroupRepository
     Group? GetGroup(Guid id);
     List<Group> GetGroups();
     List<Player> AddPlayers(Guid groupId, List<Player> players);
+    Group DrawDriends(Guid groupId);
 }

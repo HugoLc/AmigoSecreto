@@ -112,4 +112,12 @@ public class AmigoSecretoController : ControllerBase
         var result = _mediator.Send(requestCommand);
         return Ok(result.Result);
     }
+    [HttpPost("v1/group/draw-friends")]
+    public IActionResult DrawFriends()
+    {
+        // pegar id do grupo pelo request
+        //criar comando
+        //mandar no mediator
+        return Ok();
+    }
 }
