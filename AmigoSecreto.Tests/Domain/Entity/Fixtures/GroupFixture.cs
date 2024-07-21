@@ -30,15 +30,18 @@ public class GroupFixture
         var users = new List<Player>();
         for (int i = 1; i <= count; i++)
         {
+            var userId = Guid.NewGuid();
             var user = new User()
             {
-                Id = Guid.NewGuid(),
+                Id = userId,
                 Name = $"user{i}",
                 Phone = $"{i}",
                 Gifts = new List<Gift>
                 {
                     new Gift()
                     {
+                        Id =Guid.NewGuid(),
+                        UserId = userId,
                         Link = $"link{i}",
                         Description = $"desc{i}"
                     }

@@ -23,7 +23,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Creat
             Phone = request.Phone,
             Gifts = request.Gifts,
         };
-        _userRepository.AddUser(user);
+        await _userRepository.AddUser(user);
         return new CreateUserResult(Id: user.Id, Name: user.Name);
     }
 }

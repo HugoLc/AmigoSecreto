@@ -20,7 +20,7 @@ public class AmigoSecretoController : ControllerBase
     }
 
     [HttpPost("v1/create-user")]
-    public IActionResult CreateUser([FromBody] UserRequest request)
+    public async Task<IActionResult> CreateUser([FromBody] UserRequest request)
     {
         //TODO: usar mapster
         var requestCommand = new CreateUserCommand(
@@ -30,8 +30,18 @@ public class AmigoSecretoController : ControllerBase
             Gifts: request.Gifts,
             GroupId: request.GroupId
         );
-        var result = _mediator.Send(requestCommand);
-        return Ok(result.Result);
+        //TODO: melhorar tratativa de erros
+        try
+        {
+            var result = await _mediator.Send(requestCommand);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            var retorno = Content(ex.Message);
+            retorno.StatusCode = 500;
+            return retorno;
+        }
     }
 
     [HttpGet("v1/get-user/{id}")]

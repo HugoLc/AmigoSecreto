@@ -1,7 +1,7 @@
 using AmigoSecreto.Application.Common.Interfaces.Persistense;
 using AmigoSecreto.Domain.Entity;
 
-namespace AmigoSecreto.Infrastructure.Persistense;
+namespace AmigoSecreto.Infrastructure.Persistense.InMemo;
 public class InMemoGroupRepository : IGroupRepository
 {
     private static readonly List<Group> _groups = [];
