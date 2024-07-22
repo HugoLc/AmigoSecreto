@@ -31,7 +31,25 @@ public class SqLiteUserRepository : IUserRepository
                     user.GroupId
                 }
             );
-            //TODO: adicionar gift
+            if (rowsAffected == 0) return;
+            foreach (var gift in user.Gifts)
+            {
+
+                rowsAffected += await connection.ExecuteAsync(
+                    @"INSERT INTO
+                        [gift] (id, user_id, description, link)
+                    VALUES 
+                        (@Id, @UserId, @Description, @Link)
+                ",
+                new
+                {
+                    gift.Id,
+                    UserId = gift.UserId.ToString(),
+                    gift.Description,
+                    gift.Link
+                }
+                );
+            }
             Console.WriteLine($"{rowsAffected} linhas afetadas");
         }
     }

@@ -8,6 +8,11 @@ public record CreateUserCommand
     string Name,
     string Password,
     string Phone,
-    List<Gift> Gifts,
+    List<GiftCommand> Gifts,
     string? GroupId
- ) : IRequest<CreateUserResult>;
+) : IRequest<CreateUserResult>;
+
+public record GiftCommand(
+    string Description,
+    string Link
+);

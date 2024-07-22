@@ -4,6 +4,7 @@ using AmigoSecreto.Application.AmigoSecreto.Queries;
 using AmigoSecreto.Application.AmigoSecreto.Queries.Group;
 using AmigoSecreto.Contracts.Group;
 using AmigoSecreto.Contracts.User;
+using AmigoSecreto.Domain.ValueObjects;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,12 +23,15 @@ public class AmigoSecretoController : ControllerBase
     [HttpPost("v1/create-user")]
     public async Task<IActionResult> CreateUser([FromBody] UserRequest request)
     {
+
         //TODO: usar mapster
         var requestCommand = new CreateUserCommand(
             Name: request.Name,
             Password: request.Password,
             Phone: request.Phone,
-            Gifts: request.Gifts,
+            Gifts: request.Gifts
+                .Select(g => new GiftCommand(g.Description, g.Link))
+                .ToList(),
             GroupId: request.GroupId
         );
         //TODO: melhorar tratativa de erros
