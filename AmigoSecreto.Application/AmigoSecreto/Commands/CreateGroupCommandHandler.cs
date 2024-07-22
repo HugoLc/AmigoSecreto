@@ -16,7 +16,7 @@ public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, Cre
         _userRepository = userRepository;
     }
 
-    public Task<CreateGroupResult> Handle(CreateGroupCommand request, CancellationToken cancellationToken)
+    public async Task<CreateGroupResult> Handle(CreateGroupCommand request, CancellationToken cancellationToken)
     {
         DateTime convertedDrawDate = DateTime.Parse(request.DrawDate);
         DateTime convertedGiftsDate = DateTime.Parse(request.GiftsDate);
@@ -33,7 +33,7 @@ public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, Cre
             GiftsDate = convertedGiftsDate,
             Local = request.Local,
         };
-        var adminUser = _userRepository.GetUser(Guid.Parse(request.AdminId));
+        var adminUser = await _userRepository.GetUser(Guid.Parse(request.AdminId));
         _userRepository.AddGroup(Guid.Parse(request.AdminId), group.Id);
         if (adminUser == null)
         {
@@ -49,7 +49,7 @@ public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, Cre
             group.Local,
             group.AdminId
         );
-        return Task.FromResult(result);
+        return result;
     }
 
     private static bool AreValidDates(DateTime convertedDrawDate, DateTime convertedGiftsDate)

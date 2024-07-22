@@ -6,7 +6,7 @@ Content-Type: application/json
 {
     "name": "hugo",
     "password": "hhh",
-    "phone": "11222338",
+    "phone": "112223222",
     "gifts": [
         {
             "description": "chinelo",

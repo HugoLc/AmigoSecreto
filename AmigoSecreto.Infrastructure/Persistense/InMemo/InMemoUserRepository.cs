@@ -18,9 +18,9 @@ public class InMemoUserRepository : IUserRepository
         _users.Add(user);
     }
 
-    public User? GetUser(Guid userId)
+    public Task<User?> GetUser(Guid userId)
     {
-        return _users.FirstOrDefault(x => x.Id == userId);
+        return Task.FromResult(_users.FirstOrDefault(x => x.Id == userId));
     }
 
     public List<User> GetUsers()

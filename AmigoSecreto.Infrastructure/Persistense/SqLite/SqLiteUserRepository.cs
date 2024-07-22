@@ -54,9 +54,22 @@ public class SqLiteUserRepository : IUserRepository
         }
     }
 
-    public User? GetUser(Guid userId)
+    public async Task<User?> GetUser(Guid userId)
     {
-        throw new NotImplementedException();
+        await using (var connection = new SqliteConnection(_connectionString))
+        {
+            var sql = $"SELECT * FROM [user] WHERE id = @UserId";
+            var user = await connection.QueryAsync<User>(
+                    sql, new { UserId = userId.ToString() }
+                );
+                //TODO: mudar tudo para player. get player...
+                //TODO
+                // criar tipo de resposta da query
+                // pegar dados dos gifts
+                // mapear para user
+                //
+            return user.FirstOrDefault();
+        }
     }
 
     public List<User> GetUsers()

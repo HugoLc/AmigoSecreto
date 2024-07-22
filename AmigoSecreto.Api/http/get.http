@@ -1,6 +1,6 @@
 @host = http://localhost:5127/api
 
-GET {{host}}/v1/get-user/8058233a-50ce-4463-a491-7aafe350d87e
+GET {{host}}/v1/get-user/ba4260c4-84dc-46e3-aa8e-0a0a6fc7a0ab
 Content-Type: application/json
 
 ###
