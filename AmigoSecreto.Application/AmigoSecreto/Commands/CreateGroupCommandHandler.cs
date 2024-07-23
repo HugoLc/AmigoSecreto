@@ -33,7 +33,7 @@ public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, Cre
             GiftsDate = convertedGiftsDate,
             Local = request.Local,
         };
-        var adminUser = await _userRepository.GetUser(Guid.Parse(request.AdminId));
+        var adminUser = await _userRepository.GetPlayer(Guid.Parse(request.AdminId));
         _userRepository.AddGroup(Guid.Parse(request.AdminId), group.Id);
         if (adminUser == null)
         {

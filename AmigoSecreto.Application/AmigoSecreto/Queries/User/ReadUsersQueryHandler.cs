@@ -13,14 +13,14 @@ public class ReadUsersQueryHandler : IRequestHandler<ReadUsersQuery, List<ReadUs
 
     public Task<List<ReadUserResult>> Handle(ReadUsersQuery request, CancellationToken cancellationToken)
     {
-        var users = _repository.GetUsers();
-        var usersResult = users.Select(u => new ReadUserResult(
+        var players = _repository.GetPlayers();
+        var playersResult = players.Select(u => new ReadUserResult(
             Id: u.Id,
             Name: u.Name,
             Phone: u.Phone,
             GroupId: u.GroupId,
             Gifts: u.Gifts
         )).ToList();
-        return Task.FromResult(usersResult);
+        return Task.FromResult(playersResult);
     }
 }

@@ -18,13 +18,15 @@ public class InMemoUserRepository : IUserRepository
         _users.Add(user);
     }
 
-    public Task<User?> GetUser(Guid userId)
+    public Task<Player?> GetPlayer(Guid userId)
     {
-        return Task.FromResult(_users.FirstOrDefault(x => x.Id == userId));
+        // return Task.FromResult(_users.FirstOrDefault(x => x.Id == userId));
+        throw new NotImplementedException();
     }
 
-    public List<User> GetUsers()
+    public List<Player> GetPlayers()
     {
-        return _users;
+        // return _users;
+        throw new NotImplementedException();
     }
 }

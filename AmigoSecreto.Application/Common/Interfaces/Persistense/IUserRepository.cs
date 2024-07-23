@@ -5,6 +5,6 @@ public interface IUserRepository
 {
     void AddGroup(Guid userId, Guid groupId);
     Task AddUser(User user);
-    Task<User?> GetUser(Guid userId);
-    List<User> GetUsers();
+    Task<Player?> GetPlayer(Guid userId);
+    List<Player> GetPlayers();
 }

@@ -12,7 +12,7 @@ public class ReadUserByIdQueryHandler : IRequestHandler<ReadUserByIdQuery, ReadU
     }
     public async Task<ReadUserResult> Handle(ReadUserByIdQuery request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetUser(request.Id);
+        var user = await _userRepository.GetPlayer(request.Id);
         if (user == null)
         {
             return null;
