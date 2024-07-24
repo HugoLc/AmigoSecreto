@@ -1,5 +1,7 @@
 using AmigoSecreto.Application.Common.Interfaces.Persistense;
 using AmigoSecreto.Domain.Entity;
+using AmigoSecreto.Domain.ValueObjects;
+using AmigoSecreto.Infrastructure.Persistense.Common;
 using Dapper;
 using Microsoft.Data.Sqlite;
 
@@ -58,16 +60,41 @@ public class SqLiteUserRepository : IUserRepository
     {
         await using (var connection = new SqliteConnection(_connectionString))
         {
-            var sql = $"SELECT * FROM [user] WHERE id = @UserId";
-            var user = await connection.QueryAsync<User>(
-                    sql, new { UserId = userId.ToString() }
+            var sqlPlayer = @"SELECT id, name, phone, group_id
+                              FROM [user] 
+                              WHERE id = @UserId";
+            var players = await connection.QueryAsync<PlayerSqliteResponse>(
+                    sqlPlayer, new { UserId = userId.ToString() }
                 );
-            //TODO
-            // criar tipo de resposta da query
-            // pegar dados dos gifts
-            // mapear para user
-            //
-            return user.FirstOrDefault();
+            //TODO rodar debug. "valor input nao pode ser null"
+            var sqlGifts = @"SELECT * 
+                             FROM [gift] 
+                             WHERE user_id = @UserId";
+            var giftsSqlResponse = await connection.QueryAsync<GiftsSqliteResponse>(sqlGifts, new { UserId = userId.ToString() });
+
+            var playerSqlResponse = players.FirstOrDefault();
+            if (playerSqlResponse is null)
+            {
+                return null;
+            }
+            var gifts = giftsSqlResponse.Select(g => new Gift()
+            {
+                Id = Guid.Parse(g.Id),
+                UserId = Guid.Parse(g.UserId),
+                Description = g.Description,
+                Link = g.Link
+            }).ToList();
+            var player = new Player()
+            {
+                Id = Guid.Parse(playerSqlResponse.Id),
+                Name = playerSqlResponse.Name,
+                Phone = playerSqlResponse.Phone,
+                GroupId = playerSqlResponse.GroupId != null
+                        ? Guid.Parse(playerSqlResponse.GroupId)
+                        : null,
+                Gifts = gifts
+            };
+            return player;
         }
     }
 
