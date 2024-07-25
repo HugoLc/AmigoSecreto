@@ -1,3 +1,4 @@
+
 namespace AmigoSecreto.Infrastructure.Persistense.Common;
 public class GiftsSqliteResponse
 {

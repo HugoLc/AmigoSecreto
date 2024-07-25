@@ -66,8 +66,11 @@ public class SqLiteUserRepository : IUserRepository
             var players = await connection.QueryAsync<PlayerSqliteResponse>(
                     sqlPlayer, new { UserId = userId.ToString() }
                 );
-            //TODO rodar debug. "valor input nao pode ser null"
-            var sqlGifts = @"SELECT * 
+            var sqlGifts = @"SELECT 
+                                id as Id, 
+                                user_id as UserId,
+                                description as Description, 
+                                link as Link
                              FROM [gift] 
                              WHERE user_id = @UserId";
             var giftsSqlResponse = await connection.QueryAsync<GiftsSqliteResponse>(sqlGifts, new { UserId = userId.ToString() });
@@ -84,14 +87,12 @@ public class SqLiteUserRepository : IUserRepository
                 Description = g.Description,
                 Link = g.Link
             }).ToList();
-            var player = new Player()
+            var player = new Player
             {
                 Id = Guid.Parse(playerSqlResponse.Id),
                 Name = playerSqlResponse.Name,
                 Phone = playerSqlResponse.Phone,
-                GroupId = playerSqlResponse.GroupId != null
-                        ? Guid.Parse(playerSqlResponse.GroupId)
-                        : null,
+                GroupId = !string.IsNullOrWhiteSpace(playerSqlResponse.GroupId) ? Guid.Parse(playerSqlResponse.GroupId) : null,
                 Gifts = gifts
             };
             return player;

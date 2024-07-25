@@ -49,19 +49,19 @@ public class AmigoSecretoController : ControllerBase
     }
 
     [HttpGet("v1/get-user/{id}")]
-    public IActionResult GetUserById([FromRoute] string id)
+    public async Task<IActionResult> GetUserById([FromRoute] string id)
     {
         if (string.IsNullOrEmpty(id))
         {
             return BadRequest();
         }
         var requestQuery = new ReadUserByIdQuery(Guid.Parse(id));
-        var result = _mediator.Send(requestQuery);
-        if (result.Result is null)
+        var result = await _mediator.Send(requestQuery);
+        if (result == null)
         {
             return NoContent();
         }
-        return Ok(result.Result);
+        return Ok(result);
     }
 
     [HttpGet("v1/get-users")]
