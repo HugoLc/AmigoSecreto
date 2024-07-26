@@ -57,6 +57,6 @@ public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, Cre
     {
         //TODO: validação não funciona
         DateTime today = DateTime.Today;
-        return convertedGiftsDate < convertedDrawDate || today >= convertedDrawDate.Date || today >= convertedGiftsDate;
+        return convertedGiftsDate > convertedDrawDate && today <= convertedDrawDate.Date && today <= convertedGiftsDate;
     }
 }

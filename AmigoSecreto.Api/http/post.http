@@ -19,8 +19,8 @@ POST  {{host}}/v1/create-group
 Content-Type: application/json
 
 {
-    "drawDate": "2024-07-15T23:11",
-    "giftsDate": "2024-07-17T23:11",
+    "drawDate": "2024-07-27T23:11",
+    "giftsDate": "2024-07-30T23:11",
     "local": "casa da maria",
     "adminId": "ba4260c4-84dc-46e3-aa8e-0a0a6fc7a0ab"
 }
