@@ -9,9 +9,14 @@ namespace AmigoSecreto.Infrastructure.Persistense.SqLite;
 public class SqLiteUserRepository : IUserRepository
 {
     private readonly string _connectionString = "Data Source=../AmigoSecreto.Infrastructure/AmigoSecreto.db";
-    public void AddGroup(Guid userId, Guid groupId)
+    public async Task AddGroup(Guid userId, Guid groupId)
     {
-        throw new NotImplementedException();
+        await using var connection = new SqliteConnection(_connectionString);
+        var sql = @"UPDATE [user] 
+                    SET [group_id] = @GroupId
+                    WHERE [id] = @UserId";
+        await connection.ExecuteAsync(sql, new { UserId = userId, GroupId = groupId });
+
     }
 
     public async Task AddUser(User user)

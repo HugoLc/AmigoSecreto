@@ -11,6 +11,8 @@ public static class DependencyInjection
         // services.AddScoped<IUserRepository, InMemoUserRepository>();
         services.AddScoped<IUserRepository, SqLiteUserRepository>();
         services.AddScoped<IGroupRepository, InMemoGroupRepository>();
+        // services.AddScoped<IGroupRepository, InMemoGroupRepository>();
+        services.AddScoped<IGroupRepository, SqLiteGroupRepository>();
         return services;
     }
 }

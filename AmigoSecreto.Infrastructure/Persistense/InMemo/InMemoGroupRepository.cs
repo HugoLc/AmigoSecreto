@@ -5,7 +5,7 @@ namespace AmigoSecreto.Infrastructure.Persistense.InMemo;
 public class InMemoGroupRepository : IGroupRepository
 {
     private static readonly List<Group> _groups = [];
-    public void AddGroup(Group group)
+    public async Task AddGroup(Group group)
     {
         _groups.Add(group);
     }

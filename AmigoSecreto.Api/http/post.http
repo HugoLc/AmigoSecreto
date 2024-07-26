@@ -22,7 +22,7 @@ Content-Type: application/json
     "drawDate": "2024-07-15T23:11",
     "giftsDate": "2024-07-17T23:11",
     "local": "casa da maria",
-    "adminId": "f4df3774-06a2-4b90-9ab5-3ba8d11c62d5"
+    "adminId": "ba4260c4-84dc-46e3-aa8e-0a0a6fc7a0ab"
 }
 ###
 POST  {{host}}/v1/group/add-players

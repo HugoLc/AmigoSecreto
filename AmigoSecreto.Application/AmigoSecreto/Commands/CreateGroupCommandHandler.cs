@@ -34,14 +34,15 @@ public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, Cre
             Local = request.Local,
         };
         var adminUser = await _userRepository.GetPlayer(Guid.Parse(request.AdminId));
-        _userRepository.AddGroup(Guid.Parse(request.AdminId), group.Id);
+        //TODO: esse comando deve ser dado depoiis de criar o grupo
         if (adminUser == null)
         {
             //TODO: melhorar tratativa de erros
             throw new ArgumentNullException(nameof(adminUser));
         }
         group.AddPlayer(adminUser);
-        _groupRepository.AddGroup(group);
+        await _groupRepository.AddGroup(group);
+        await _userRepository.AddGroup(Guid.Parse(request.AdminId), group.Id);
         var result = new CreateGroupResult(
             group.Id,
             group.DrawDate,
@@ -54,6 +55,7 @@ public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, Cre
 
     private static bool AreValidDates(DateTime convertedDrawDate, DateTime convertedGiftsDate)
     {
+        //TODO: validação não funciona
         DateTime today = DateTime.Today;
         return convertedGiftsDate < convertedDrawDate || today >= convertedDrawDate.Date || today >= convertedGiftsDate;
     }

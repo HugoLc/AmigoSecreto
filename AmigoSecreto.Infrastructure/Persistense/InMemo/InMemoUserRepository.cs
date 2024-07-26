@@ -6,7 +6,7 @@ public class InMemoUserRepository : IUserRepository
 {
     private static readonly List<User> _users = [];
 
-    public void AddGroup(Guid userId, Guid groupId)
+    public async Task AddGroup(Guid userId, Guid groupId)
     {
         //TODO: melhorar tratamento de erro
         var user = _users.Find(u => u.Id == userId) ?? throw new ArgumentException("User not found");
