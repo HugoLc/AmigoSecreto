@@ -34,13 +34,13 @@ public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, Cre
             Local = request.Local,
         };
         var adminUser = await _userRepository.GetPlayer(Guid.Parse(request.AdminId));
-        //TODO: esse comando deve ser dado depoiis de criar o grupo
-        if (adminUser == null)
+        if (adminUser == null || adminUser.GroupId != null)
         {
             //TODO: melhorar tratativa de erros
             throw new ArgumentNullException(nameof(adminUser));
         }
         group.AddPlayer(adminUser);
+        //TODO: ver como fazer rollback
         await _groupRepository.AddGroup(group);
         await _userRepository.AddGroup(Guid.Parse(request.AdminId), group.Id);
         var result = new CreateGroupResult(

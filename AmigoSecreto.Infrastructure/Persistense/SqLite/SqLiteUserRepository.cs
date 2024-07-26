@@ -15,7 +15,8 @@ public class SqLiteUserRepository : IUserRepository
         var sql = @"UPDATE [user] 
                     SET [group_id] = @GroupId
                     WHERE [id] = @UserId";
-        await connection.ExecuteAsync(sql, new { UserId = userId, GroupId = groupId });
+        var rowsAffected = await connection.ExecuteAsync(sql, new { UserId = userId.ToString(), GroupId = groupId.ToString() });
+        Console.WriteLine($"{rowsAffected} linhas afetadas");
 
     }
 
@@ -65,7 +66,11 @@ public class SqLiteUserRepository : IUserRepository
     {
         await using (var connection = new SqliteConnection(_connectionString))
         {
-            var sqlPlayer = @"SELECT id, name, phone, group_id
+            var sqlPlayer = @"SELECT 
+                                id as Id, 
+                                name as Name, 
+                                phone as Phone, 
+                                group_id as GroupId
                               FROM [user] 
                               WHERE id = @UserId";
             var players = await connection.QueryAsync<PlayerSqliteResponse>(
