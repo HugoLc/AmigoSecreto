@@ -5,5 +5,5 @@ public record CreateGroupResult(
     DateTime DrawDate,
     DateTime GiftsDate,
     string Local,
-    string AdminId
+    Guid AdminId
 );

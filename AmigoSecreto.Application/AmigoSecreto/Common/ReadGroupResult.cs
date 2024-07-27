@@ -4,6 +4,6 @@ public record ReadGroupResult(
     DateTime DrawDate,
     DateTime GiftsDate,
     string Local,
-    string AdminId,
+    Guid AdminId,
     bool AreFriendsDrawn
 );

@@ -8,7 +8,7 @@ public class Group
     public DateTime GiftsDate { get; set; }
     public List<Player> Players { get; set; } = [];
     public string Local { get; set; } = string.Empty;
-    public required string AdminId { get; set; }
+    public required Guid AdminId { get; set; }
     public bool AreFriendsDrawn { get; private set; } = false;
 
     public void DrawFriends()

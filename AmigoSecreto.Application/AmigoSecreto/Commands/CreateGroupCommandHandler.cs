@@ -28,7 +28,7 @@ public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, Cre
         var group = new Group()
         {
             Id = Guid.NewGuid(),
-            AdminId = request.AdminId,
+            AdminId = Guid.Parse(request.AdminId),
             DrawDate = convertedDrawDate,
             GiftsDate = convertedGiftsDate,
             Local = request.Local,
@@ -40,9 +40,7 @@ public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, Cre
             throw new ArgumentNullException(nameof(adminUser));
         }
         group.AddPlayer(adminUser);
-        //TODO: ver como fazer rollback
         await _groupRepository.AddGroup(group);
-        await _userRepository.AddGroup(Guid.Parse(request.AdminId), group.Id);
         var result = new CreateGroupResult(
             group.Id,
             group.DrawDate,
