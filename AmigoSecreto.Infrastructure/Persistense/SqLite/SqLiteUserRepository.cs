@@ -4,6 +4,7 @@ using AmigoSecreto.Domain.ValueObjects;
 using AmigoSecreto.Infrastructure.Persistense.Common;
 using Dapper;
 using Microsoft.Data.Sqlite;
+using System.Collections.Generic;
 
 namespace AmigoSecreto.Infrastructure.Persistense.SqLite;
 public class SqLiteUserRepository : IUserRepository
@@ -36,10 +37,13 @@ public class SqLiteUserRepository : IUserRepository
                     user.Name,
                     user.Phone,
                     user.Password,
-                    user.GroupId
+                    GroupId = user.GroupId.ToString()
                 }
             );
-            if (rowsAffected == 0) return;
+            if (
+                rowsAffected == 0 ||
+                user.Gifts == null ||
+                user.Gifts.Count == 0) return;
             foreach (var gift in user.Gifts)
             {
 

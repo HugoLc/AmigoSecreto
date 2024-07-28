@@ -10,7 +10,7 @@ public class InMemoGroupRepository : IGroupRepository
         _groups.Add(group);
     }
 
-    public List<Player> AddPlayers(Guid groupId, List<Player> players)
+    public async Task<List<Player>> AddPlayers(Guid groupId, List<Player> players)
     {
         var group = _groups.FirstOrDefault(g => g.Id == groupId) ?? throw new ArgumentException("grupo não encontrado");
         foreach (var player in players)

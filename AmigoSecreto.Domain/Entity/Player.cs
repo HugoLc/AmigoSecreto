@@ -23,3 +23,19 @@ public class Player
         FriendId = friend;
     }
 }
+
+public static class PlayerExtensions
+{
+    public static User ToUser(this Player player)
+    {
+        return new User
+        {
+            Id = player.Id,
+            Name = player.Name,
+            Phone = player.Phone,
+            Gifts = player.Gifts,
+            GroupId = player.GroupId,
+            Password = string.Empty,
+        };
+    }
+}

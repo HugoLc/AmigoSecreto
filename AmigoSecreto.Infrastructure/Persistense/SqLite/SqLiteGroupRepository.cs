@@ -45,9 +45,24 @@ public class SqLiteGroupRepository : IGroupRepository
         }
     }
 
-    public List<Player> AddPlayers(Guid groupId, List<Player> players)
+    public async Task<List<Player>> AddPlayers(Guid groupId, List<Player> players)
     {
-        throw new NotImplementedException();
+        await using var connection = new SqliteConnection(_connectionString);
+        await connection.OpenAsync();
+        var sqlSelect = @"SELECT 
+                    [id] as ID
+                    FROM [group]
+                    WHERE [id] = @Id";
+        var groupResponse = await connection.QueryAsync(
+            sqlSelect,
+            new { Id = groupId }) ?? throw new Exception("grupo não encontrado");
+        await connection.CloseAsync();
+        foreach (var player in players)
+        {
+            await _userRepository.AddUser(player.ToUser());
+        }
+        return players;
+
     }
 
     public Group DrawDriends(Guid groupId)

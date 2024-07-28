@@ -29,25 +29,23 @@ POST  {{host}}/v1/group/add-players
 Content-Type: application/json
 
 {
-    "groupId":"73674365-5f6e-4f93-804c-e877e60e215d",
+    "groupId":"c0e96e5e-db5b-44a7-9ba0-9e28c9badc78",
     "players": [
         {
-            "name": "player 1",
-            "phone": "player 1",
-            "gifts": [
-                {
-                    "description": "chinelo",
-                    "link": "/chinelo"
-                }
-            ]
+            "name": "player 3",
+            "phone": "player 3"
         },
         {
-            "name": "player 2",
-            "phone": "player 2",
+            "name": "player 4",
+            "phone": "player 4",
             "gifts": [
                 {
-                    "description": "chinelo",
-                    "link": "/chinelo"
+                    "description": "sapato",
+                    "link": "/sapato"
+                },
+                {
+                    "description": "meia",
+                    "link": "/meia"
                 }
             ]
         }

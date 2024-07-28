@@ -1,6 +1,7 @@
 using AmigoSecreto.Application.AmigoSecreto.Common;
 using AmigoSecreto.Application.Common.Interfaces.Persistense;
 using AmigoSecreto.Domain.Entity;
+using AmigoSecreto.Domain.ValueObjects;
 using MediatR;
 
 namespace AmigoSecreto.Application.AmigoSecreto.Commands;
@@ -13,22 +14,30 @@ public class AddPlayerToGroupCommandHandler : IRequestHandler<AddPlayerToGroupCo
         _groupRepository = groupRepository;
     }
 
-    public Task<AddPlayerResult> Handle(AddPlayerToGroupCommand request, CancellationToken cancellationToken)
+    public async Task<AddPlayerResult> Handle(AddPlayerToGroupCommand request, CancellationToken cancellationToken)
     {
         List<Player> playerObjects = [];
         foreach (var playerDto in request.Players)
         {
-            var player = new Player()
+            var playerId = Guid.NewGuid();
+            var gifts = playerDto.Gifts?.Select(g => new Gift()
             {
                 Id = Guid.NewGuid(),
+                UserId = playerId,
+                Description = g.Description,
+                Link = g.Link
+            }).ToList();
+            var player = new Player()
+            {
+                Id = playerId,
                 Name = playerDto.Name,
                 Phone = playerDto.Phone,
-                Gifts = playerDto.Gifts,
+                Gifts = gifts,
                 GroupId = request.GroupId
             };
             playerObjects.Add(player);
         }
-        var playersResult = _groupRepository.AddPlayers(request.GroupId, playerObjects);
-        return Task.FromResult(new AddPlayerResult(request.GroupId, playersResult));
+        var playersResult = await _groupRepository.AddPlayers(request.GroupId, playerObjects);
+        return new AddPlayerResult(request.GroupId, playersResult);
     }
 }
