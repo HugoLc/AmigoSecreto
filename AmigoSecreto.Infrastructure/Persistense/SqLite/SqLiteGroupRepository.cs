@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AmigoSecreto.Application.Common.Interfaces.Persistense;
 using AmigoSecreto.Domain.Entity;
+using AmigoSecreto.Infrastructure.Persistense.Common;
 using Dapper;
 using Microsoft.Data.Sqlite;
 
@@ -70,9 +71,25 @@ public class SqLiteGroupRepository : IGroupRepository
         throw new NotImplementedException();
     }
 
-    public Group? GetGroup(Guid id)
+    public async Task<Group?> GetGroup(Guid id)
     {
-        throw new NotImplementedException();
+        await using var connection = new SqliteConnection(_connectionString);
+        await connection.OpenAsync();
+        var sqlSelect = @"SELECT 
+                    [id] as ID
+                    FROM [group]
+                    WHERE [id] = @Id";
+        var groupResponse = await connection.QueryAsync<GroupSqliteResponse>(
+            sqlSelect,
+            new { Id = id }) ?? throw new Exception("grupo não encontrado");
+        //pegar playersresponse por grupo
+        //criar lista de players
+        //criar metodo no repositorio
+        //criar group com base no groupresponse
+        //adicionar players no group
+        //retornar group
+
+
     }
 
     public List<Group> GetGroups()
