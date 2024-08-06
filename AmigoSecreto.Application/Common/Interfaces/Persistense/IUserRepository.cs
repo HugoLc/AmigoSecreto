@@ -7,4 +7,6 @@ public interface IUserRepository
     Task AddUser(User user);
     Task<Player?> GetPlayer(Guid userId);
     List<Player> GetPlayers();
+    Task<List<Player>> GetPlayersByGroup(Guid groupId);
+
 }

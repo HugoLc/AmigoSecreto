@@ -68,53 +68,76 @@ public class SqLiteUserRepository : IUserRepository
 
     public async Task<Player?> GetPlayer(Guid userId)
     {
-        await using (var connection = new SqliteConnection(_connectionString))
-        {
-            var sqlPlayer = @"SELECT 
+        await using var connection = new SqliteConnection(_connectionString);
+        var sqlPlayer = @"SELECT 
                                 id as Id, 
                                 name as Name, 
                                 phone as Phone, 
                                 group_id as GroupId
                               FROM [user] 
                               WHERE id = @UserId";
-            var players = await connection.QueryAsync<PlayerSqliteResponse>(
-                    sqlPlayer, new { UserId = userId.ToString() }
-                );
-            var sqlGifts = @"SELECT 
-                                id as Id, 
-                                user_id as UserId,
-                                description as Description, 
-                                link as Link
-                             FROM [gift] 
-                             WHERE user_id = @UserId";
-            var giftsSqlResponse = await connection.QueryAsync<GiftsSqliteResponse>(sqlGifts, new { UserId = userId.ToString() });
+        var players = await connection.QueryAsync<PlayerSqliteResponse>(
+                sqlPlayer, new { UserId = userId.ToString() }
+            );
+        var sqlGifts = @"SELECT 
+                            id as Id, 
+                            user_id as UserId,
+                            description as Description, 
+                            link as Link
+                        FROM [gift] 
+                        WHERE user_id = @UserId";
+        var giftsSqlResponse = await connection.QueryAsync<GiftsSqliteResponse>(sqlGifts, new { UserId = userId.ToString() });
 
-            var playerSqlResponse = players.FirstOrDefault();
-            if (playerSqlResponse is null)
-            {
-                return null;
-            }
-            var gifts = giftsSqlResponse.Select(g => new Gift()
-            {
-                Id = Guid.Parse(g.Id),
-                UserId = Guid.Parse(g.UserId),
-                Description = g.Description,
-                Link = g.Link
-            }).ToList();
-            var player = new Player
-            {
-                Id = Guid.Parse(playerSqlResponse.Id),
-                Name = playerSqlResponse.Name,
-                Phone = playerSqlResponse.Phone,
-                GroupId = !string.IsNullOrWhiteSpace(playerSqlResponse.GroupId) ? Guid.Parse(playerSqlResponse.GroupId) : null,
-                Gifts = gifts
-            };
-            return player;
+        var playerSqlResponse = players.FirstOrDefault();
+        if (playerSqlResponse is null)
+        {
+            return null;
         }
+        var gifts = giftsSqlResponse.Select(g => new Gift()
+        {
+            Id = Guid.Parse(g.Id),
+            UserId = Guid.Parse(g.UserId),
+            Description = g.Description,
+            Link = g.Link
+        }).ToList();
+        var player = new Player
+        {
+            Id = Guid.Parse(playerSqlResponse.Id),
+            Name = playerSqlResponse.Name,
+            Phone = playerSqlResponse.Phone,
+            GroupId = !string.IsNullOrWhiteSpace(playerSqlResponse.GroupId) ? Guid.Parse(playerSqlResponse.GroupId) : null,
+            Gifts = gifts
+        };
+        return player;
     }
 
     public List<Player> GetPlayers()
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<List<Player>> GetPlayersByGroup(Guid groupId)
+    {
+        await using var connection = new SqliteConnection(_connectionString);
+        var sqlPlayer = @"SELECT 
+                            u.id as Id, 
+                            u.name as Name, 
+                            u.phone as Phone, 
+                            u.group_id as GroupId,
+                            g.description as GiftDescription,
+                            g.link as GiftLink
+                        FROM [user] u
+                        LEFT JOIN gift g ON g.user_id = u.id
+                        WHERE group_id = @GroupId";
+        var playersResponse = await connection.QueryAsyncync<PlayerSqliteResponseasd>(
+                sqlPlayer, new { GroupId = groupId.ToString() }
+            );
+        var players = playersResponse.Select(player => new Player(){
+            Id = Guid.Parse(player.Id),
+            Name = player.Name,
+            Phone = player.Phone,
+            Gifts = player.
+        })
+
     }
 }

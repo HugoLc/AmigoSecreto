@@ -88,6 +88,7 @@ public class SqLiteGroupRepository : IGroupRepository
         //criar group com base no groupresponse
         //adicionar players no group
         //retornar group
+        throw new Exception();
 
 
     }

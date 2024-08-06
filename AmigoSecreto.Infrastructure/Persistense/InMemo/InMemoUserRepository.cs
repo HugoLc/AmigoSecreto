@@ -29,4 +29,9 @@ public class InMemoUserRepository : IUserRepository
         // return _users;
         throw new NotImplementedException();
     }
+
+    public Task<List<Player>> GetPlayersByGroup(Guid groupId)
+    {
+        throw new NotImplementedException();
+    }
 }

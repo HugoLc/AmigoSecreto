@@ -10,9 +10,9 @@ public class ReadGroupByIdQueryHandler : IRequestHandler<ReadGroupByIdQuery, Rea
     {
         _groupRepository = groupRepository;
     }
-    public Task<ReadGroupResult> Handle(ReadGroupByIdQuery request, CancellationToken cancellationToken)
+    public async Task<ReadGroupResult> Handle(ReadGroupByIdQuery request, CancellationToken cancellationToken)
     {
-        var group = _groupRepository.GetGroup(request.Id);
+        var group = await _groupRepository.GetGroup(request.Id);
         if (group == null)
             return null;
 
@@ -24,6 +24,6 @@ public class ReadGroupByIdQueryHandler : IRequestHandler<ReadGroupByIdQuery, Rea
             group.AdminId,
             group.AreFriendsDrawn
         );
-        return Task.FromResult(readGroupResult);
+        return readGroupResult;
     }
 }

@@ -27,13 +27,14 @@ public class InMemoGroupRepository : IGroupRepository
         return group;
     }
 
-    public Group? GetGroup(Guid id)
+    public Task<Group?> GetGroup(Guid id)
     {
-        return _groups.FirstOrDefault(g => g.Id == id);
+        return Task.FromResult(_groups.FirstOrDefault(g => g.Id == id));
     }
 
     public List<Group> GetGroups()
     {
         return _groups;
     }
+
 }
