@@ -124,20 +124,34 @@ public class SqLiteUserRepository : IUserRepository
                             u.name as Name, 
                             u.phone as Phone, 
                             u.group_id as GroupId,
+                            g.id as GiftId
                             g.description as GiftDescription,
                             g.link as GiftLink
                         FROM [user] u
                         LEFT JOIN gift g ON g.user_id = u.id
                         WHERE group_id = @GroupId";
-        var playersResponse = await connection.QueryAsyncync<PlayerSqliteResponseasd>(
-                sqlPlayer, new { GroupId = groupId.ToString() }
-            );
-        var players = playersResponse.Select(player => new Player(){
-            Id = Guid.Parse(player.Id),
-            Name = player.Name,
-            Phone = player.Phone,
-            Gifts = player.
-        })
 
+        var playerDictionary = new Dictionary<Guid, Player>();
+
+        var playersResponse = await connection.QueryAsync<Player, Gift, Player>(
+            sqlPlayer,
+            (player, gift) =>
+            {
+                if (!playerDictionary.TryGetValue(player.Id, out var currentPlayer))
+                {
+                    currentPlayer = player;
+                    playerDictionary.Add(currentPlayer.Id, currentPlayer);
+                }
+
+                if (player != null)
+                {
+                    currentPlayer.Gifts.Add(gift);
+                }
+
+                return currentPlayer;
+            },
+            splitOn: "GiftId"
+        );
+        return playersResponse.Distinct().ToList();
     }
 }
