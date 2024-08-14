@@ -2,6 +2,7 @@
 using AmigoSecreto.Application.AmigoSecreto.Commands;
 using AmigoSecreto.Application.AmigoSecreto.Queries;
 using AmigoSecreto.Application.AmigoSecreto.Queries.Group;
+using AmigoSecreto.Application.AmigoSecreto.Queries.User;
 using AmigoSecreto.Contracts.Group;
 using AmigoSecreto.Contracts.User;
 using AmigoSecreto.Domain.ValueObjects;
@@ -109,6 +110,19 @@ public class AmigoSecretoController : ControllerBase
     {
 
         var requestQuery = new ReadGroupsQuery();
+        var result = _mediator.Send(requestQuery);
+
+        if (result.Result == null || result.Result.Count == 0)
+        {
+            return NoContent();
+        }
+        return Ok(result.Result);
+    }
+    [HttpGet("v1/get-players-by-group/{id}")]
+    public IActionResult GetPlayersByGroup([FromRoute] string id)
+    {
+
+        var requestQuery = new ReadUsersByGroupQuery(Guid.Parse(id));
         var result = _mediator.Send(requestQuery);
 
         if (result.Result == null || result.Result.Count == 0)

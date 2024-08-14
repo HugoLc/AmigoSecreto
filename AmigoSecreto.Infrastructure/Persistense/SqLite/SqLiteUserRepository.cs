@@ -124,7 +124,7 @@ public class SqLiteUserRepository : IUserRepository
                             u.name as Name, 
                             u.phone as Phone, 
                             u.group_id as GroupId,
-                            g.id as GiftId
+                            g.id as GiftId,
                             g.description as GiftDescription,
                             g.link as GiftLink
                         FROM [user] u
@@ -132,7 +132,7 @@ public class SqLiteUserRepository : IUserRepository
                         WHERE group_id = @GroupId";
 
         var playerDictionary = new Dictionary<Guid, Player>();
-
+        //TODO: mudar para <playerdbresponse, giftdbresponse, player>
         var playersResponse = await connection.QueryAsync<Player, Gift, Player>(
             sqlPlayer,
             (player, gift) =>
@@ -150,6 +150,7 @@ public class SqLiteUserRepository : IUserRepository
 
                 return currentPlayer;
             },
+            new { GroupId = groupId.ToString() },
             splitOn: "GiftId"
         );
         return playersResponse.Distinct().ToList();
