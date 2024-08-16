@@ -95,7 +95,7 @@ public class SqLiteUserRepository : IUserRepository
         }
         var gifts = giftsSqlResponse.Select(g => new Gift()
         {
-            Id = Guid.Parse(g.Id),
+            Id = Guid.Parse(g.GiftId),
             UserId = Guid.Parse(g.UserId),
             Description = g.Description,
             Link = g.Link
@@ -125,26 +125,38 @@ public class SqLiteUserRepository : IUserRepository
                             u.phone as Phone, 
                             u.group_id as GroupId,
                             g.id as GiftId,
-                            g.description as GiftDescription,
-                            g.link as GiftLink
+                            g.description as Description,
+                            g.link as Link
                         FROM [user] u
                         LEFT JOIN gift g ON g.user_id = u.id
                         WHERE group_id = @GroupId";
 
         var playerDictionary = new Dictionary<Guid, Player>();
-        //TODO: mudar para <playerdbresponse, giftdbresponse, player>
-        var playersResponse = await connection.QueryAsync<Player, Gift, Player>(
+
+        var playersResponse = await connection.QueryAsync<PlayerSqliteResponse, GiftsSqliteResponse, Player>(
             sqlPlayer,
-            (player, gift) =>
+            (playerResp, giftResp) =>
             {
-                if (!playerDictionary.TryGetValue(player.Id, out var currentPlayer))
+                if (!playerDictionary.TryGetValue(Guid.Parse(playerResp.Id), out var currentPlayer))
                 {
-                    currentPlayer = player;
+                    currentPlayer = new Player()
+                    {
+                        Id = Guid.Parse(playerResp.Id),
+                        Name = playerResp.Name,
+                        Phone = playerResp.Phone
+                    };
                     playerDictionary.Add(currentPlayer.Id, currentPlayer);
                 }
 
-                if (player != null)
+                if (playerResp != null && giftResp != null)
                 {
+                    var gift = new Gift()
+                    {
+                        Id = Guid.Parse(giftResp.GiftId),
+                        Description = giftResp.Description,
+                        Link = giftResp.Link,
+                        UserId = Guid.Parse(playerResp.Id)
+                    };
                     currentPlayer.Gifts.Add(gift);
                 }
 
