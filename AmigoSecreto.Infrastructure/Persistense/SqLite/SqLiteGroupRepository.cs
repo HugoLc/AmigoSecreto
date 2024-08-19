@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AmigoSecreto.Application.Common.Interfaces.Persistense;
 using AmigoSecreto.Domain.Entity;
+using AmigoSecreto.Domain.ValueObjects;
 using AmigoSecreto.Infrastructure.Persistense.Common;
 using Dapper;
 using Microsoft.Data.Sqlite;
@@ -75,22 +76,75 @@ public class SqLiteGroupRepository : IGroupRepository
     {
         await using var connection = new SqliteConnection(_connectionString);
         await connection.OpenAsync();
-        var sqlSelect = @"SELECT 
-                    [id] as ID
-                    FROM [group]
-                    WHERE [id] = @Id";
-        var groupResponse = await connection.QueryAsync<GroupSqliteResponse>(
-            sqlSelect,
-            new { Id = id }) ?? throw new Exception("grupo não encontrado");
-        //pegar playersresponse por grupo
-        //criar lista de players
-        //criar metodo no repositorio
-        //criar group com base no groupresponse
-        //adicionar players no group
-        //retornar group
-        throw new Exception();
+        var sql = @"SELECT 
+                    g.id as GroupId, 
+                    g.draw_date as DrawDate,
+                    g.local as Local, 
+                    g.are_friends_drawn as AreFriendsDrawn,
+                    g.admin_id as AdminId,
+                    u.id as Id,
+                    u.name as Name,
+                    u.phone as Phone,
+                    gift.id as GiftId, 
+                    gift.description as Description, 
+                    gift.link as Link
+                FROM 
+                    [group] g
+                LEFT JOIN 
+                    [user]u ON g.id = u.group_id
+                LEFT JOIN 
+                    [gift] gift ON u.id = gift.user_id
+                WHERE g.id = @GroupId";
+        Group? group = null;
+        await connection.QueryAsync<GroupSqliteResponse, PlayerSqliteResponse, GiftsSqliteResponse, Group>(
+            sql,
+            (groupResp, playerResp, giftResp) =>
+            {
+                if (group == null)
+                {
+                    group = new Group()
+                    {
+                        Id = Guid.Parse(groupResp.GroupId),
+                        AdminId = Guid.Parse(groupResp.AdminId),
+                        //TODO verificar a string vazia
+                        DrawDate = DateTime.Parse(groupResp.DrawDate),
+                        GiftsDate = DateTime.Parse(groupResp.GiftsDate),
+                        Local = groupResp.Local,
+                        AreFriendsDrawn = groupResp.AreFriendsDrawn,
+                        Players = []
+                    };
+                }
 
+                var currentPlayer = group.Players.FirstOrDefault(p => p.Id.ToString() == playerResp.Id);
+                if (currentPlayer == null)
+                {
+                    currentPlayer = new Player()
+                    {
+                        Id = Guid.Parse(playerResp.Id),
+                        Name = playerResp.Name,
+                        Phone = playerResp.Phone,
+                        GroupId = Guid.Parse(playerResp.GroupId),
+                        Gifts = []
+                    };
+                    currentPlayer.Gifts = new List<Gift>();
+                    group.Players.Add(currentPlayer);
+                }
 
+                currentPlayer.Gifts.Add(new Gift()
+                {
+                    Id = Guid.Parse(giftResp.GiftId),
+                    Description = giftResp.Description,
+                    Link = giftResp.Link,
+                    UserId = Guid.Parse(giftResp.UserId),
+                });
+
+                return group;
+            },
+            new { GroupId = id.ToString() },
+
+            splitOn: "Id,GiftId"
+        );
+        return group;
     }
 
     public List<Group> GetGroups()

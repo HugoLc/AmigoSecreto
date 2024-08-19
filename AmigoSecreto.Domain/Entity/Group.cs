@@ -9,7 +9,7 @@ public class Group
     public List<Player> Players { get; set; } = [];
     public string Local { get; set; } = string.Empty;
     public required Guid AdminId { get; set; }
-    public bool AreFriendsDrawn { get; private set; } = false;
+    public bool AreFriendsDrawn { get; set; } = false;
 
     public void DrawFriends()
     {
