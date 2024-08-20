@@ -79,6 +79,7 @@ public class SqLiteGroupRepository : IGroupRepository
         var sql = @"SELECT 
                     g.id as GroupId, 
                     g.draw_date as DrawDate,
+                    g.gifts_date as GiftsDate,
                     g.local as Local, 
                     g.are_friends_drawn as AreFriendsDrawn,
                     g.admin_id as AdminId,
@@ -102,6 +103,7 @@ public class SqLiteGroupRepository : IGroupRepository
             {
                 if (group == null)
                 {
+
                     group = new Group()
                     {
                         Id = Guid.Parse(groupResp.GroupId),
@@ -118,25 +120,30 @@ public class SqLiteGroupRepository : IGroupRepository
                 var currentPlayer = group.Players.FirstOrDefault(p => p.Id.ToString() == playerResp.Id);
                 if (currentPlayer == null)
                 {
+
                     currentPlayer = new Player()
                     {
                         Id = Guid.Parse(playerResp.Id),
                         Name = playerResp.Name,
                         Phone = playerResp.Phone,
-                        GroupId = Guid.Parse(playerResp.GroupId),
+                        GroupId = Guid.Parse(groupResp.GroupId),
                         Gifts = []
                     };
                     currentPlayer.Gifts = new List<Gift>();
                     group.Players.Add(currentPlayer);
                 }
 
-                currentPlayer.Gifts.Add(new Gift()
+                if (giftResp != null && giftResp.GiftId != string.Empty)
                 {
-                    Id = Guid.Parse(giftResp.GiftId),
-                    Description = giftResp.Description,
-                    Link = giftResp.Link,
-                    UserId = Guid.Parse(giftResp.UserId),
-                });
+
+                    currentPlayer.Gifts.Add(new Gift()
+                    {
+                        Id = Guid.Parse(giftResp.GiftId),
+                        Description = giftResp.Description,
+                        Link = giftResp.Link,
+                        UserId = currentPlayer.Id,
+                    });
+                }
 
                 return group;
             },

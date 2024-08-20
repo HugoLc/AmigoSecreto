@@ -15,7 +15,7 @@ public class ReadGroupByIdQueryHandler : IRequestHandler<ReadGroupByIdQuery, Rea
         var group = await _groupRepository.GetGroup(request.Id);
         if (group == null)
             return null;
-
+        //TODO alterar result para enviar group completo com players e gifts
         var readGroupResult = new ReadGroupResult(
             group.Id,
             group.DrawDate,
