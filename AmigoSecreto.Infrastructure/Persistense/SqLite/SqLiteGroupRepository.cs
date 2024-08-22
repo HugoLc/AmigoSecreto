@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using AmigoSecreto.Application.Common.Interfaces.Persistense;
 using AmigoSecreto.Domain.Entity;
 using AmigoSecreto.Domain.ValueObjects;
@@ -129,7 +128,7 @@ public class SqLiteGroupRepository : IGroupRepository
                         GroupId = Guid.Parse(groupResp.GroupId),
                         Gifts = []
                     };
-                    currentPlayer.Gifts = new List<Gift>();
+                    currentPlayer.Gifts = [];
                     group.Players.Add(currentPlayer);
                 }
 

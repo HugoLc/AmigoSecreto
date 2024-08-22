@@ -21,7 +21,8 @@ public class ReadGroupsQueryHandler : IRequestHandler<ReadGroupsQuery, List<Read
             g.GiftsDate,
             g.Local,
             g.AdminId,
-            g.AreFriendsDrawn
+            g.AreFriendsDrawn,
+            g.Players
         )).ToList();
         return Task.FromResult(resultGroups);
     }
