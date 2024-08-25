@@ -66,10 +66,17 @@ public class SqLiteGroupRepository : IGroupRepository
 
     }
 
-    public Group DrawDriends(Guid groupId)
+    public async Task<Group> DrawDriends(Guid groupId)
     {
-        throw new NotImplementedException();
+        var group = await GetGroup(groupId) ?? throw new Exception("Grupo não encontrado");
+        group.DrawFriends();
+        //transaction
+        //      update group
+        //          update players
+        //              update gifts
+        return group;
     }
+
 
     public async Task<Group?> GetGroup(Guid id)
     {
@@ -154,6 +161,11 @@ public class SqLiteGroupRepository : IGroupRepository
     }
 
     public List<Group> GetGroups()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task UpdateGroup(Group group)
     {
         throw new NotImplementedException();
     }

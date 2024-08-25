@@ -11,11 +11,11 @@ public class DrawFriendsCommandHandler : IRequestHandler<DrawFriendsCommand, Dra
         _groupRepository = groupRepository;
     }
 
-    public Task<DrawFriendsResult> Handle(DrawFriendsCommand request, CancellationToken cancellationToken)
+    public async Task<DrawFriendsResult> Handle(DrawFriendsCommand request, CancellationToken cancellationToken)
     {
-        var drawnGroup = _groupRepository.DrawDriends(Guid.Parse(request.GroupId));
+        var drawnGroup = await _groupRepository.DrawDriends(Guid.Parse(request.GroupId));
         var result = new DrawFriendsResult(drawnGroup.Id, drawnGroup.AreFriendsDrawn);
         //TODO: enviar mensagens para amigos
-        return Task.FromResult(result);
+        return result;
     }
 }

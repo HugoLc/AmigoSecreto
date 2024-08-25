@@ -8,5 +8,6 @@ public interface IGroupRepository
     Task<Group?> GetGroup(Guid id);
     List<Group> GetGroups();
     Task<List<Player>> AddPlayers(Guid groupId, List<Player> players);
-    Group DrawDriends(Guid groupId);
+    Task<Group> DrawDriends(Guid groupId);
+    Task UpdateGroup(Group group);
 }

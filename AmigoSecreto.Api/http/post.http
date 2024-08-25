@@ -56,5 +56,5 @@ POST  {{host}}/v1/group/draw-friends
 Content-Type: application/json
 
 {
-    "groupId": "73674365-5f6e-4f93-804c-e877e60e215d"
+    "groupId": "c0e96e5e-db5b-44a7-9ba0-9e28c9badc78"
 }

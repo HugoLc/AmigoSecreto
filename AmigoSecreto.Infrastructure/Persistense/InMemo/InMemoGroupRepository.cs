@@ -20,12 +20,15 @@ public class InMemoGroupRepository : IGroupRepository
         return group.Players;
     }
 
-    public Group DrawDriends(Guid groupId)
+    public Task<Group> DrawDriends(Guid groupId)
     {
         var group = _groups.FirstOrDefault(g => g.Id == groupId) ?? throw new ArgumentException("grupo não encontrado");
         group.DrawFriends();
-        return group;
+        
+        return Task.FromResult(group);
     }
+
+
 
     public Task<Group?> GetGroup(Guid id)
     {

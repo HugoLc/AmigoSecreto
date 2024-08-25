@@ -175,4 +175,19 @@ public class SqLiteUserRepository : IUserRepository
         );
         return playersResponse.Distinct().ToList();
     }
+
+    public async Task UpadateGifts(User user)
+    {
+        await using var connection = new SqliteConnection(_connectionString);
+        foreach (var gift in user.Gifts)
+        {
+            
+        }
+        throw new NotImplementedException();
+    }
+
+    public Task UpdateUser(User user)
+    {
+        throw new NotImplementedException();
+    }
 }
