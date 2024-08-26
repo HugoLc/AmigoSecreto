@@ -74,6 +74,16 @@ public class SqLiteGroupRepository : IGroupRepository
         //      update group
         //          update players
         //              update gifts
+        await using var connection = new SqliteConnection(_connectionString);
+        await using var transaction = await connection.BeginTransactionAsync();
+        try
+        {
+
+        }
+        catch (Exception)
+        {
+            await transaction.RollbackAsync();
+        }
         return group;
     }
 
@@ -165,8 +175,27 @@ public class SqLiteGroupRepository : IGroupRepository
         throw new NotImplementedException();
     }
 
-    public Task UpdateGroup(Group group)
+    public async Task UpdateGroup(Group group)
     {
-        throw new NotImplementedException();
+        await using var connection = new SqliteConnection(_connectionString);
+        var sql = @"UPDATE [group]
+                    SET [draw_date] = @DrawDate,
+                        [gifts_date] = @GiftsDate,
+                        [friend_id] = @FriendId,
+                        [local] = @Local,
+                        [are_friends_drawn] = @AreFriendsDrawn,
+                        [admin_id] = @AdminId,
+                    WHERE [id] = @Id";
+        int rowsAffected = await connection.ExecuteAsync(sql, new
+        {
+            group.Id,
+            group.DrawDate,
+            group.GiftsDate,
+            group.Local,
+            group.AreFriendsDrawn,
+            group.AdminId
+        });
+
+        Console.WriteLine($"Group {rowsAffected}");
     }
 }

@@ -9,7 +9,7 @@ public interface IUserRepository
     Task<Player?> GetPlayer(Guid userId);
     List<Player> GetPlayers();
     Task<List<Player>> GetPlayersByGroup(Guid groupId);
-    Task UpdateUser(User user);
-    Task UpadateGifts(User user);
+    Task UpdatePlayer(Player player);
+    Task UpadateGifts(Player player);
 
 }

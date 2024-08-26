@@ -176,18 +176,44 @@ public class SqLiteUserRepository : IUserRepository
         return playersResponse.Distinct().ToList();
     }
 
-    public async Task UpadateGifts(User user)
+    public async Task UpadateGifts(Player player)
     {
         await using var connection = new SqliteConnection(_connectionString);
-        foreach (var gift in user.Gifts)
+        var sql = @"UPDATE [gift]
+                    SET [user_id] = @UserId,
+                        [description] = @Description,
+                        [link] = @Link
+                    WHERE [id] = @Id";
+        int rowsAffected = 0;
+        foreach (var gift in player.Gifts)
         {
-            
+            rowsAffected += await connection.ExecuteAsync(sql, new
+            {
+                gift.Id,
+                gift.UserId,
+                gift.Description,
+                gift.Link
+            });
         }
-        throw new NotImplementedException();
+        Console.WriteLine($"Gift {rowsAffected}");
     }
 
-    public Task UpdateUser(User user)
+    public async Task UpdatePlayer(Player player)
     {
-        throw new NotImplementedException();
+        await using var connection = new SqliteConnection(_connectionString);
+        var sql = @"UPDATE [user]
+                    SET [name] = @Name,
+                        [phone] = @Phone,
+                        [friend_id] = @FriendId
+                    WHERE [id] = @Id";
+        int rowsAffected = await connection.ExecuteAsync(sql, new
+        {
+            player.Id,
+            player.Name,
+            player.Phone,
+            player.FriendId,
+        });
+
+        Console.WriteLine($"Player {rowsAffected}");
     }
 }
