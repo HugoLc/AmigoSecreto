@@ -189,8 +189,8 @@ public class SqLiteUserRepository : IUserRepository
         {
             rowsAffected += await connection.ExecuteAsync(sql, new
             {
-                gift.Id,
-                gift.UserId,
+                Id = gift.Id.ToString(),
+                UserId = gift.UserId.ToString(),
                 gift.Description,
                 gift.Link
             });
@@ -201,6 +201,8 @@ public class SqLiteUserRepository : IUserRepository
     public async Task UpdatePlayer(Player player)
     {
         await using var connection = new SqliteConnection(_connectionString);
+        await connection.OpenAsync();
+
         var sql = @"UPDATE [user]
                     SET [name] = @Name,
                         [phone] = @Phone,
@@ -208,10 +210,10 @@ public class SqLiteUserRepository : IUserRepository
                     WHERE [id] = @Id";
         int rowsAffected = await connection.ExecuteAsync(sql, new
         {
-            player.Id,
+            Id = player.Id.ToString(),
             player.Name,
             player.Phone,
-            player.FriendId,
+            FriendId = player.FriendId.ToString(),
         });
 
         Console.WriteLine($"Player {rowsAffected}");

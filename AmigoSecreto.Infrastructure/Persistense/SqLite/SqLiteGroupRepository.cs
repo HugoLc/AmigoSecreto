@@ -70,21 +70,14 @@ public class SqLiteGroupRepository : IGroupRepository
     {
         var group = await GetGroup(groupId) ?? throw new Exception("Grupo não encontrado");
         group.DrawFriends();
-        //transaction
-        //      update group
-        //          update players
-        //              update gifts
         await using var connection = new SqliteConnection(_connectionString);
-        await using var transaction = await connection.BeginTransactionAsync();
-        try
+        await UpdateGroup(group);
+        foreach (var player in group.Players)
         {
-
-        }
-        catch (Exception)
-        {
-            await transaction.RollbackAsync();
+            await _userRepository.UpdatePlayer(player);
         }
         return group;
+
     }
 
 
@@ -181,19 +174,18 @@ public class SqLiteGroupRepository : IGroupRepository
         var sql = @"UPDATE [group]
                     SET [draw_date] = @DrawDate,
                         [gifts_date] = @GiftsDate,
-                        [friend_id] = @FriendId,
                         [local] = @Local,
                         [are_friends_drawn] = @AreFriendsDrawn,
-                        [admin_id] = @AdminId,
+                        [admin_id] = @AdminId
                     WHERE [id] = @Id";
         int rowsAffected = await connection.ExecuteAsync(sql, new
         {
-            group.Id,
+            Id = group.Id.ToString(),
             group.DrawDate,
             group.GiftsDate,
             group.Local,
             group.AreFriendsDrawn,
-            group.AdminId
+            AdminId = group.AdminId.ToString()
         });
 
         Console.WriteLine($"Group {rowsAffected}");

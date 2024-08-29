@@ -1,43 +1,43 @@
-using AmigoSecreto.Application.Common.Interfaces.Persistense;
-using AmigoSecreto.Domain.Entity;
+// using AmigoSecreto.Application.Common.Interfaces.Persistense;
+// using AmigoSecreto.Domain.Entity;
 
-namespace AmigoSecreto.Infrastructure.Persistense.InMemo;
-public class InMemoGroupRepository : IGroupRepository
-{
-    private static readonly List<Group> _groups = [];
-    public async Task AddGroup(Group group)
-    {
-        _groups.Add(group);
-    }
+// namespace AmigoSecreto.Infrastructure.Persistense.InMemo;
+// public class InMemoGroupRepository : IGroupRepository
+// {
+//     private static readonly List<Group> _groups = [];
+//     public async Task AddGroup(Group group)
+//     {
+//         _groups.Add(group);
+//     }
 
-    public async Task<List<Player>> AddPlayers(Guid groupId, List<Player> players)
-    {
-        var group = _groups.FirstOrDefault(g => g.Id == groupId) ?? throw new ArgumentException("grupo não encontrado");
-        foreach (var player in players)
-        {
-            group.AddPlayer(player);
-        }
-        return group.Players;
-    }
+//     public async Task<List<Player>> AddPlayers(Guid groupId, List<Player> players)
+//     {
+//         var group = _groups.FirstOrDefault(g => g.Id == groupId) ?? throw new ArgumentException("grupo não encontrado");
+//         foreach (var player in players)
+//         {
+//             group.AddPlayer(player);
+//         }
+//         return group.Players;
+//     }
 
-    public Task<Group> DrawDriends(Guid groupId)
-    {
-        var group = _groups.FirstOrDefault(g => g.Id == groupId) ?? throw new ArgumentException("grupo não encontrado");
-        group.DrawFriends();
-        
-        return Task.FromResult(group);
-    }
+//     public Task<Group> DrawDriends(Guid groupId)
+//     {
+//         var group = _groups.FirstOrDefault(g => g.Id == groupId) ?? throw new ArgumentException("grupo não encontrado");
+//         group.DrawFriends();
+
+//         return Task.FromResult(group);
+//     }
 
 
 
-    public Task<Group?> GetGroup(Guid id)
-    {
-        return Task.FromResult(_groups.FirstOrDefault(g => g.Id == id));
-    }
+//     public Task<Group?> GetGroup(Guid id)
+//     {
+//         return Task.FromResult(_groups.FirstOrDefault(g => g.Id == id));
+//     }
 
-    public List<Group> GetGroups()
-    {
-        return _groups;
-    }
+//     public List<Group> GetGroups()
+//     {
+//         return _groups;
+//     }
 
-}
+// }
