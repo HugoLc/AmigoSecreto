@@ -5,8 +5,8 @@ using AmigoSecreto.Application.AmigoSecreto.Queries.Group;
 using AmigoSecreto.Application.AmigoSecreto.Queries.User;
 using AmigoSecreto.Contracts.Group;
 using AmigoSecreto.Contracts.User;
-using AmigoSecreto.Domain.ValueObjects;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AmigoSecreto.Api.Controllers;
@@ -141,10 +141,17 @@ public class AmigoSecretoController : ControllerBase
         return Ok(result.Result);
     }
     [HttpPost("v1/group/draw-friends")]
-    public IActionResult DrawFriends([FromBody] DrawFriendsRequest request)
+    public async Task<IActionResult> DrawFriends([FromBody] DrawFriendsRequest request)
     {
         var requestCommand = new DrawFriendsCommand(request.GroupId);
-        var result = _mediator.Send(requestCommand);
-        return Ok(result.Result);
+        var result = await _mediator.Send(requestCommand);
+        return Ok(result);
+    }
+    [HttpDelete("v1/user/delete/{id}")]
+    public async Task<IActionResult> DeleteUser([FromRoute] string id)
+    {
+        var requestCommand = new DeleteUserCommand(id);
+        await _mediator.Send(requestCommand);
+        return NoContent();
     }
 }

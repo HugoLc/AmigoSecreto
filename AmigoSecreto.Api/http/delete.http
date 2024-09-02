@@ -1,0 +1,4 @@
+@host = http://localhost:5127/api
+
+DELETE {{host}}/v1/user/delete/ba4260c4-84dc-46e3-aa8e-0a0a6fc7a0ab
+Content-Type: application/json

@@ -66,6 +66,15 @@ public class SqLiteUserRepository : IUserRepository
         }
     }
 
+    public async Task DeleteUser(Guid userId)
+    {
+        var sql = @"DELETE FROM [user] WHERE [id] = @UserId";
+        await using var connection = new SqliteConnection(_connectionString);
+        var rowsAffected = await connection.ExecuteAsync(sql, new { UserId = userId.ToString() });
+        Console.WriteLine($"{rowsAffected} linhas afetadas");
+        if (rowsAffected == 0) throw new Exception("User not found");
+    }
+
     public async Task<Player?> GetPlayer(Guid userId)
     {
         await using var connection = new SqliteConnection(_connectionString);

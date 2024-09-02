@@ -11,5 +11,5 @@ public interface IUserRepository
     Task<List<Player>> GetPlayersByGroup(Guid groupId);
     Task UpdatePlayer(Player player);
     Task UpadateGifts(Player player);
-
+    Task DeleteUser(Guid userId);
 }
